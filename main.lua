@@ -38,6 +38,17 @@ function love.load()
   fire_delay = 0.2
 end
 
+function love.mousepressed( mouseX, mouseY, button, istouch )
+  if button == 1 then
+    for i = 1, #players, 1 do
+      if (mouseInRadius(players[i], players[i].size)) then
+        active_player = i
+        break
+      end
+    end
+  end
+end
+
 function love.draw()
 
   -- draw players
@@ -59,7 +70,7 @@ end
 function love.update(dt)
   -- update player
   local player = players[active_player]
-
+  
   if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
     player.speed = player.speed < top_speed and (player.speed + acceleration * dt) or top_speed
   else
