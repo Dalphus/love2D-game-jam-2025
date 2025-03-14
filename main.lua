@@ -11,6 +11,9 @@ function love.load()
   love.graphics.setBackgroundColor(0, 0, 0)
   love.graphics.setColor(255, 255, 255)
 
+  -- make the mouse visible
+  love.mouse.setVisible(true)
+
   -- set up some game variables
   player = {x = 400, y = 300, rotation = 0, speed = 0, fire_timer = 0}
   projectiles = {}
@@ -23,6 +26,11 @@ function love.load()
 end
 
 function love.draw()
+  -- change player color if the mouse is within the player circle
+  if math.sqrt(math.pow(player.x - love.mouse.getX()) + math.pow(player.y - love.mouse.getY())) =< player_size then
+    love.graphics.setColor(255, 0, 0)
+  end
+
   -- draw player
   love.graphics.circle("fill", player.x, player.y, player_size, 50)
   -- draw player pointer
