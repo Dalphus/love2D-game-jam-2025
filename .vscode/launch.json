@@ -14,11 +14,11 @@
             },
             "args":
             [
-                "${workspaceFolder}",
+                ".",
                 "vsc_debug"
             ],
             "scriptFiles": [
-                "${workspaceFolder}/main.lua"
+                "./main.lua"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
