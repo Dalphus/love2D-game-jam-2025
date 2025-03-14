@@ -5,21 +5,21 @@ end
 
 require("helpers")
 
-function Player()
-  local player = {}
-  player.x = 400
-  player.y = 300
-  player.rotation = 0
-  player.speed = 0
-  player.fire_timer = 0
+function Player(_x, _y, _size, _rotation, _speed, _fire_timer)
+  local player = {
+    ["x"]          = _x          or 300,
+    ["y"]          = _y          or 400,
+    ["size"]       = _size       or 50,
+    ["rotation"]   = _rotation   or 0,
+    ["speed"]      = _speed      or 0,
+    ["fire_timer"] = _fire_timer or 0
+  }
   return player
 end
 
 function love.load()
-  print("Hello World!")
-
   -- set up the window
-  love.window.setMode(800, 600, {resizable = true, vsync = false})
+  love.window.setMode(1600, 1000, {resizable = true, vsync = false})
   love.graphics.setBackgroundColor(0, 0, 0)
   love.graphics.setColor(255, 255, 255)
 
@@ -27,37 +27,29 @@ function love.load()
   love.mouse.setVisible(true)
 
   -- set up some game variables
-  player = {x = 400, y = 300, rotation = 0, speed = 0, fire_timer = 0}
   projectiles = {}
-  -- set up some game constants
-  top_speed = 400
-  acceleration = 200
-  fire_delay = 0.1
+  players = {}
+  players[1] = Player(400, 200, 30)
+  players[2] = Player(100, 100, 50)
+  active_player = 1
+  top_speed = 200
   rotation_speed = 2.5
-  player_size = 30
+  acceleration = 100
+  fire_delay = 0.2
 end
 
 function love.draw()
-  -- change player color if the mouse is within the player circle
-  if mouseInRadius(player, player_size) then
-    love.graphics.setColor(255, 0, 0)
+
+  -- draw players
+  for _, player in pairs(players) do
+    love.graphics.circle("fill", player.x, player.y, player.size, 50)
+    local x2 = math.cos(player.rotation) * player.size
+    local y2 = math.sin(player.rotation) * player.size
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.line(player.x, player.y, player.x + x2, player.y + y2)
+    love.graphics.setColor(255, 255, 255)
   end
 
-  -- draw player
-  love.graphics.circle("fill", player.x, player.y, player_size, 50)
-
-  -- circumscribe test
-  local testC = {}
-  testC[1] = player
-  testC[2] = {["x"] = 0, ["y"] = 0}
-  circumscribe(testC, 15)
-
-  -- draw player pointer
-  local x2 = math.cos(player.rotation) * player_size
-  local y2 = math.sin(player.rotation) * player_size
-  love.graphics.setColor(0, 0, 0)
-  love.graphics.line(player.x, player.y, player.x + x2, player.y + y2)
-  love.graphics.setColor(255, 255, 255)
   -- draw projectiles
   for _, projectile in pairs(projectiles) do
     love.graphics.circle("fill", projectile.x, projectile.y, 5, 10)
@@ -66,6 +58,8 @@ end
 
 function love.update(dt)
   -- update player
+  local player = players[active_player]
+
   if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
     player.speed = player.speed < top_speed and (player.speed + acceleration * dt) or top_speed
   else
@@ -83,8 +77,8 @@ function love.update(dt)
   player.y = player.y + math.sin(player.rotation) * dt * player.speed
 
   -- keep player on screen
-  player.x = (player.x + player_size) % (love.graphics.getWidth() + player_size * 2) - player_size
-  player.y = (player.y + player_size) % (love.graphics.getHeight() + player_size * 2) - player_size
+  player.x = (player.x + player.size) % (love.graphics.getWidth() + player.size * 2) - player.size
+  player.y = (player.y + player.size) % (love.graphics.getHeight() + player.size * 2) - player.size
 
   -- fire projectile
   player.fire_timer = player.fire_timer - dt
