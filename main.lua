@@ -15,15 +15,6 @@ function Player()
   return player
 end
 
-function mouseInPlayer()
-  local xdiff2 = math.pow(player.x - love.mouse.getX(), 2)
-  local ydiff2 = math.pow(player.y - love.mouse.getY(), 2)
-  -- return true if vector distance between the center of the player
-  -- and the cursor is less then or equal to the player radius
-  return math.sqrt(xdiff2 + ydiff2) <= player_size
-end
-
-
 function love.load()
   print("Hello World!")
 
@@ -48,12 +39,19 @@ end
 
 function love.draw()
   -- change player color if the mouse is within the player circle
-  if  then
+  if mouseInRadius(player, player_size) then
     love.graphics.setColor(255, 0, 0)
   end
 
   -- draw player
   love.graphics.circle("fill", player.x, player.y, player_size, 50)
+
+  -- circumscribe test
+  local testC = {}
+  testC[1] = player
+  testC[2] = {["x"] = 0, ["y"] = 0}
+  circumscribe(testC, 15)
+
   -- draw player pointer
   local x2 = math.cos(player.rotation) * player_size
   local y2 = math.sin(player.rotation) * player_size
