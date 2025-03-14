@@ -3,6 +3,27 @@ if arg[2] == "vsc_debug" then
   require("lldebugger").start()
 end
 
+require("helpers")
+
+function Player()
+  local player = {}
+  player.x = 400
+  player.y = 300
+  player.rotation = 0
+  player.speed = 0
+  player.fire_timer = 0
+  return player
+end
+
+function mouseInPlayer()
+  local xdiff2 = math.pow(player.x - love.mouse.getX(), 2)
+  local ydiff2 = math.pow(player.y - love.mouse.getY(), 2)
+  -- return true if vector distance between the center of the player
+  -- and the cursor is less then or equal to the player radius
+  return math.sqrt(xdiff2 + ydiff2) <= player_size
+end
+
+
 function love.load()
   print("Hello World!")
 
@@ -27,7 +48,7 @@ end
 
 function love.draw()
   -- change player color if the mouse is within the player circle
-  if math.sqrt(math.pow(player.x - love.mouse.getX()) + math.pow(player.y - love.mouse.getY())) =< player_size then
+  if  then
     love.graphics.setColor(255, 0, 0)
   end
 
@@ -87,7 +108,6 @@ function love.update(dt)
     end
   end
 end
-
 
 -- Love catches errors to show the nice error screen,
 -- but we want the program to actually throw an error when one occurs
