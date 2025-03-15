@@ -38,6 +38,7 @@ function love.mousepressed( mouseX, mouseY, button )
     for i, player in pairs( players ) do
       if mouseInRadius( player ) then
         active_player = i
+        Camera:grabUIofUnit(active_player)
         break
       end
     end
@@ -88,6 +89,8 @@ function love.draw()
   love.graphics.setColor( 255, 255, 255 )
   love.graphics.rectangle( "line", Camera.x, Camera.y, scene.width * Camera.zoom, scene.height * Camera.zoom )
 
+  Camera:drawUnitUI()
+  Camera:drawEndTurn()  
 end
 
 function love.update( dt )
