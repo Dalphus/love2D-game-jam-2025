@@ -52,12 +52,12 @@ function love.mousemoved( mouseX, mouseY, dx, dy )
     if love.graphics.getWidth() - total_width - 100 < 0 then
       Camera.x = clamp( Camera.x + dx, love.graphics.getWidth() - total_width - 50, 50 )
     else
-      Camera.x = clamp( Camera.x + dx, 50, love.graphics.getWidth() - total_width * Camera.zoom - 50 )
+      Camera.x = clamp( Camera.x + dx, 50, love.graphics.getWidth() - total_width - 50 )
     end
     if love.graphics.getHeight() - total_height - 100 < 0 then
       Camera.y = clamp( Camera.y + dy, love.graphics.getHeight() - total_height - 50, 50 )
     else
-      Camera.y = clamp( Camera.y + dy, 50, love.graphics.getHeight() - total_height * Camera.zoom - 50 )
+      Camera.y = clamp( Camera.y + dy, 50, love.graphics.getHeight() - total_height - 50 )
     end
   end
 end
