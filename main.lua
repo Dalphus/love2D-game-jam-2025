@@ -20,9 +20,6 @@ function love.load()
   acceleration = 100
   fire_delay = 0.2
 
-  -- Camera Globals
-  camera = {x = 0, y = 0, zoom = 1, min_zoom = 0.5, max_zoom = 10}
-
   -- Scene Globals
   scene = {width = 800, height = 800}
   
@@ -39,8 +36,7 @@ end
 function love.mousepressed( mouseX, mouseY, button, istouch )
   if button == 1 then
     for i, player in pairs(players) do
-      local centerpoint = { x = player.x * camera.zoom - camera.x, y = player.y * camera.zoom - camera.y }
-      if (mouseInRadius(centerpoint, player.size * camera.zoom)) then
+      if (mouseInRadius(player, player.size * Camera.zoom)) then
         active_player = i
         break
       end
@@ -50,32 +46,34 @@ end
 
 function love.mousemoved( mouseX, mouseY, dx, dy )
   if love.mouse.isDown(2) then
-    camera.x = camera.x - dx
-    camera.y = camera.y - dy
+    Camera.x = Camera.x - dx
+    Camera.y = Camera.y - dy
   end
 end
 
 function love.wheelmoved( x, y )
-  camera.zoom = camera.zoom + y * 0.05
-  camera.zoom = math.max(camera.min_zoom, camera.zoom)
-  camera.zoom = math.min(camera.max_zoom, camera.zoom)
+  Camera.zoom = Camera.zoom + y * 0.05
+  Camera.zoom = math.max(Camera.min_zoom, Camera.zoom)
+  Camera.zoom = math.min(Camera.max_zoom, Camera.zoom)
 end
 
 function love.draw()
   -- draw bounding box for scene
   love.graphics.setColor(255, 255, 255)
-  love.graphics.rectangle("line", 0 - camera.x, 0 - camera.y, scene.width * camera.zoom, scene.height * camera.zoom)
+  love.graphics.rectangle("line", 0 - Camera.x, 0 - Camera.y, scene.width * Camera.zoom, scene.height * Camera.zoom)
 
 
   -- draw players
   for _, player in pairs(players) do
-    -- calculate camera offset
-    local x = player.x * camera.zoom - camera.x
-    local y = player.y * camera.zoom - camera.y
-    local size = player.size * camera.zoom
-    love.graphics.circle("fill", x, y, size, 50)
-    local x2 = math.cos(player.rotation) * size
-    local y2 = math.sin(player.rotation) * size
+    -- calculate Camera offset
+    local x = player.x * Camera.zoom - Camera.x
+    local y = player.y * Camera.zoom - Camera.y
+    if mouseInRadius(player, player.size) then
+      love.graphics.setColor(255, 0, 0)
+    end
+    love.graphics.circle("fill", x, y, player.size * Camera.zoom, 50)
+    local x2 = math.cos(player.rotation) * player.size * Camera.zoom
+    local y2 = math.sin(player.rotation) * player.size * Camera.zoom
     love.graphics.setColor(0, 0, 0)
     love.graphics.line(x, y, x + x2, y + y2)
     love.graphics.setColor(255, 255, 255)
