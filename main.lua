@@ -1,4 +1,5 @@
 -- the debugger causes a lot of lag, so we only want to load it when debugging
+lldebugger = nil
 if arg[2] == "vsc_debug" then
   require("lldebugger").start()
 end
