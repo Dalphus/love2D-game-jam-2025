@@ -14,6 +14,11 @@ Friendly troops have an action limit per turn
 
 ## Roadmap
 ### High Priority
+- Button library
+- unique context menus for units
+- obstacles
+- pathfinding
+- zoom/pan
 - Turns
 - Unit Selections
 - Basic GUI for commands
