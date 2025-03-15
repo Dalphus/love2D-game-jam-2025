@@ -37,8 +37,9 @@ end
 
 function love.mousepressed( mouseX, mouseY, button, istouch )
   if button == 1 then
-    for i = 1, #players, 1 do
-      if (mouseInRadius(players[i], players[i].size)) then
+    for i, player in pairs(players) do
+      local centerpoint = { x = player.x * camera.zoom - camera.x, y = player.y * camera.zoom - camera.y }
+      if (mouseInRadius(centerpoint, player.size * camera.zoom)) then
         active_player = i
         break
       end
