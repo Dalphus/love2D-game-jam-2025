@@ -26,6 +26,7 @@ Friendly troops have an action limit per turn
 ### Medium Priority
 - Swarm Behavior
 - Level or Scene functionality
+- Organize file structure
 
 
 ### Low Priority
