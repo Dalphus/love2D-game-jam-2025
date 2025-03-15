@@ -53,8 +53,11 @@ end
 
 function love.wheelmoved( x, y )
   Camera.zoom = Camera.zoom + y * 0.05
-  Camera.zoom = math.max( Camera.min_zoom, Camera.zoom )
-  Camera.zoom = math.min( Camera.max_zoom, Camera.zoom )
+  Camera.zoom = math.max(Camera.min_zoom, Camera.zoom)
+  Camera.zoom = math.min(Camera.max_zoom, Camera.zoom)
+
+  Camera.x = love.mouse.getX() - ((love.mouse.getX() - Camera.x) / (Camera.zoom - y * 0.05)) * Camera.zoom
+  Camera.y = love.mouse.getY() - ((love.mouse.getY() - Camera.y) / (Camera.zoom - y * 0.05)) * Camera.zoom
 end
 
 function love.draw()
