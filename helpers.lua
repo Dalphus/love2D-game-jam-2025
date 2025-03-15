@@ -1,7 +1,8 @@
 function mouseInRadius(centerpoint, radius)
     -- return true if vector distance between the center of the player
     -- and the cursor is less then or equal to the player radius
-    return vectorDist(centerpoint.x, centerpoint.y, love.mouse.getX(), love.mouse.getY()) <= radius
+    local adj_point = { x = centerpoint.x * Camera.zoom - Camera.x, y = centerpoint.y * Camera.zoom - Camera.y }
+    return vectorDist(adj_point.x, adj_point.y, love.mouse.getX(), love.mouse.getY()) <= (radius * Camera.zoom)
   end
 
 function averagePoint(items)
