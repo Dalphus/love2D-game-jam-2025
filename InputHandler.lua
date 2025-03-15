@@ -1,0 +1,2 @@
+-- A Custom input handler is probably unneccessary
+-- Love2D offers love.mouse.isDown and love.keyboard.isDown, which handles most use cases
