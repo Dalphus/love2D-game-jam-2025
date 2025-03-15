@@ -31,3 +31,13 @@ Friendly troops have an action limit per turn
 
 ### Low Priority
 - Hub Screen
+
+Touch up logic for Scenes
+ - prevent over-panning
+ - if entire scene fits keep fixed buffer size on screen
+ - else 
+ - smooth zoom transition
+ - add f5 refresh for testing
+ - implement multiple test scenes and scene switching
+Button Class
+Better Draw paradigm
