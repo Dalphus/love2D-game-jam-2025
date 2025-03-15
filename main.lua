@@ -1,11 +1,11 @@
 -- the debugger causes a lot of lag, so we only want to load it when debugging
-lldebugger = nil
 if arg[2] == "vsc_debug" then
   require("lldebugger").start()
 end
 
 require("helpers")
 require("Dummy")
+
 
 function love.load()
   -- set up the window
@@ -16,7 +16,7 @@ function love.load()
   -- make the mouse visible
   love.mouse.setVisible(true)
 
-  -- set up some game variables
+  -- Unit Globals
   projectiles = {}
   players = {}
   players[1] = Dummy:new(400, 200, 30)
@@ -26,6 +26,9 @@ function love.load()
   rotation_speed = 2.5
   acceleration = 100
   fire_delay = 0.2
+
+  -- Camera Globals
+  camera = {x = 0, y = 0, zoom = 1, min_zoom = 0.5, max_zoom = 2}
 end
 
 function love.mousepressed( mouseX, mouseY, button, istouch )
