@@ -5,6 +5,7 @@ end
 
 require("helpers")
 require("Dummy")
+require("Camera")
 
 function love.load()
   -- set up the window
@@ -43,6 +44,7 @@ function love.draw()
   -- draw players
   for _, player in pairs(players) do
     love.graphics.circle("fill", player.x, player.y, player.size, 50)
+    Camera:grabUIofUnit(player)
     local x2 = math.cos(player.rotation) * player.size
     local y2 = math.sin(player.rotation) * player.size
     love.graphics.setColor(0, 0, 0)
