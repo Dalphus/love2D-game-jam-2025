@@ -5,18 +5,7 @@ if arg[2] == "vsc_debug" then
 end
 
 require("helpers")
-
-function Player(_x, _y, _size, _rotation, _speed, _fire_timer)
-  local player = {
-    ["x"]          = _x          or 300,
-    ["y"]          = _y          or 400,
-    ["size"]       = _size       or 50,
-    ["rotation"]   = _rotation   or 0,
-    ["speed"]      = _speed      or 0,
-    ["fire_timer"] = _fire_timer or 0
-  }
-  return player
-end
+require("Dummy")
 
 function love.load()
   -- set up the window
@@ -30,8 +19,8 @@ function love.load()
   -- set up some game variables
   projectiles = {}
   players = {}
-  players[1] = Player(400, 200, 30)
-  players[2] = Player(100, 100, 50)
+  players[1] = Dummy:new(400, 200, 30)
+  players[2] = Dummy:new(100, 100, 50)
   active_player = 1
   top_speed = 200
   rotation_speed = 2.5
