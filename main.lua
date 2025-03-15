@@ -52,12 +52,15 @@ function love.mousemoved( mouseX, mouseY, dx, dy )
 end
 
 function love.wheelmoved( x, y )
+  local old_zoom = Camera.zoom
+  local mouse_x, mouse_y = love.mouse.getPosition()
   Camera.zoom = Camera.zoom + y * 0.05
   Camera.zoom = math.max(Camera.min_zoom, Camera.zoom)
   Camera.zoom = math.min(Camera.max_zoom, Camera.zoom)
-
-  Camera.x = love.mouse.getX() - ((love.mouse.getX() - Camera.x) / (Camera.zoom - y * 0.05)) * Camera.zoom
-  Camera.y = love.mouse.getY() - ((love.mouse.getY() - Camera.y) / (Camera.zoom - y * 0.05)) * Camera.zoom
+  
+  -- I generated this algorithm with Wolphram Alpha, don't ask me how it works
+  Camera.x = (Camera.zoom / old_zoom) * (Camera.x - mouse_x) + mouse_x
+  Camera.y = (Camera.zoom / old_zoom) * (Camera.y - mouse_y) + mouse_y
 end
 
 function love.draw()
