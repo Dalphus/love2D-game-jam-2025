@@ -23,7 +23,7 @@ function love.load()
 
   -- Scene Globals
   scene = { width = 2000, height = 800 }
-  
+
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
   love.graphics.setBackgroundColor( 0, 0, 0 )
