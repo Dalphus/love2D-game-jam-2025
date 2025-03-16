@@ -1,9 +1,12 @@
 require("Ally")
 
-Dummy = {}
+Dummy = Ally:new()
 
-function Dummy:new(_x, _y, _size, _rotation, _speed, _fire_timer)
-    local dummy = Ally:new(_x, _y, _size, _rotation, _speed)
-    dummy.fire_timer = _fire_timer or 0
-    return dummy
+function Dummy:new(o, _x, _y, _size, _rotation, _speed, _fire_timer)
+    self.__index = self
+    setmetatable(self, {__index = Ally})
+    local o = o or Ally:new(o, _x, _y, _size, _rotation, _speed)
+    setmetatable(o, self)
+    o.fire_timer = _fire_timer or 0
+    return o
 end
