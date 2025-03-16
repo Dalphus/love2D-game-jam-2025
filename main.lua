@@ -4,17 +4,18 @@ if arg[ 2 ] == "vsc_debug" then
 end
 
 require( "helpers" )
-require( "Dummy" )
+require( "Units.Dummy" )
+require( "Units.Dummy" )
 require( "Camera" )
 
 
 function love.load()
   -- Unit Globals
-  projectiles = {}
-  players = {}
-  players[ 1 ] = Dummy:new( nil, 400, 200, 30 )
-  players[ 2 ] = Dummy:new( nil, 100, 100, 50 )
-  active_player = 1
+  players = {
+    ["Francis"] = Dummy:new( 400, 200, 30 ),
+    ["Geraldo"] = Dummy:new( 100, 100, 50 )
+  }
+  active_player = "Francis"
   top_speed = 200
   rotation_speed = 2.5
   acceleration = 100
@@ -68,7 +69,7 @@ function love.wheelmoved( x, y )
   Camera.zoom = Camera.zoom + y * 0.05
   Camera.zoom = math.max(Camera.min_zoom, Camera.zoom)
   Camera.zoom = math.min(Camera.max_zoom, Camera.zoom)
-  
+
   -- I generated this algorithm with Wolphram Alpha, don't ask me how it works
   local mouse_x, mouse_y = love.mouse.getPosition()
   Camera.x = (Camera.zoom / old_zoom) * (Camera.x - mouse_x) + mouse_x
@@ -81,26 +82,10 @@ function love.draw()
 
   -- draw players
   for _, player in pairs( players ) do
-    local x = player.x
-    local y = player.y
-    if mouseInRadius( player ) then
-      love.graphics.setColor( 255, 0, 0 )
-    else
-      love.graphics.setColor( 255, 255, 255 )
-    end
-    love.graphics.circle( "fill", x, y, player.size, 50 )
-    local x2 = math.cos( player.rotation ) * player.size
-    local y2 = math.sin( player.rotation ) * player.size
-    love.graphics.setColor( 0, 0, 0 )
-    love.graphics.line( x, y, x + x2, y + y2 )
+    player:draw()
   end
 
-  -- draw projectiles
-  love.graphics.setColor( 255, 255, 255 )
-  for _, projectile in pairs( projectiles ) do
-    love.graphics.circle( "fill", projectile.x, projectile.y, 5, 10 )
-  end
-
+  love.graphics.setColor(255, 255, 255)
   love.graphics.setCanvas()
   love.graphics.draw( canvas, Camera.x, Camera.y, 0, Camera.zoom, Camera.zoom )
   love.graphics.setColor( 255, 255, 255 )
@@ -138,25 +123,6 @@ function love.update( dt )
   player.x = ( player.x + player.size ) % ( scene.width + player.size * 2 ) - player.size
   player.y = ( player.y + player.size ) % ( scene.height + player.size * 2 ) - player.size
 
-  -- fire projectile
-  player.fire_timer = player.fire_timer - dt
-  if love.keyboard.isDown( "space" ) and player.fire_timer <= 0 then
-    table.insert( projectiles, { x = player.x, y = player.y, rotation = player.rotation })
-    player.fire_timer = fire_delay
-  end
-
-  -- update projectiles
-  for i, projectile in pairs( projectiles ) do
-    -- remove projectile if it goes off screen
-    if projectile.x < 0 or projectile.x > love.graphics.getWidth() or
-       projectile.y < 0 or projectile.y > love.graphics.getHeight() then
-        table.remove( projectiles, i )
-    else
-      -- move projectile
-      projectile.x = projectile.x + math.cos( projectile.rotation ) * dt * 1000
-      projectile.y = projectile.y + math.sin( projectile.rotation ) * dt * 1000
-    end
-  end
 end
 
 -- Love catches errors to show the nice error screen,
