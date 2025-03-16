@@ -49,6 +49,12 @@ function love.mousepressed( mouseX, mouseY, button )
         end
       end
     end
+  elseif button == 2 then
+    if love.keyboard.isDown( "space" ) then
+      if love.keyboard.isDown( "space" ) then
+        players[ active_player ]:undoMovementNode()
+      end
+    end
   end
 
   Camera:buttonEvents()
