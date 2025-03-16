@@ -7,10 +7,6 @@ function mouseInRadius(centerpoint, _radius)
   return vectorDist(centerpoint.x, centerpoint.y, x, y) <= radius
 end
 
-function mouseInUISquare()
-    
-end
-
 function averagePoint(items)
   local coords = {[1] = 0, [2] = 0}
   for _, i in pairs(items) do
