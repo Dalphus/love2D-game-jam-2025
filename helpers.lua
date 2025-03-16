@@ -50,3 +50,13 @@ function getRelativeCursor()
   local y = (love.mouse.getY() - Camera.y) / Camera.zoom
   return x, y
 end
+
+function sign(val)
+  if val > 0 then
+    return 1
+  elseif val < 0 then
+    return -1
+  else
+    return 0
+  end
+end
