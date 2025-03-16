@@ -44,3 +44,9 @@ function clamp(value, min, max)
     return math.max(value, min)
   end
 end
+
+function getRelativeCursor()
+  local x = (love.mouse.getX() - Camera.x) / Camera.zoom
+  local y = (love.mouse.getY() - Camera.y) / Camera.zoom
+  return x, y
+end
