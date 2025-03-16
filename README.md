@@ -32,6 +32,7 @@ Friendly troops have an action limit per turn
 
 ### Low Priority
 - Hub Screen
+- UI scaling
 
 Touch up logic for Scenes
  - smooth zoom transition

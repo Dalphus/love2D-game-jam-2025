@@ -1,4 +1,5 @@
 Button = {}
+Button.__index = Button
 
 function Button:new(_x, _y, _width, _height, _anchor)
   local button = {
@@ -11,8 +12,11 @@ function Button:new(_x, _y, _width, _height, _anchor)
     ["r"] = 1,
     ["g"] = 1,
     ["b"] = 1,
-    ["anchor"] = _anchor or "TLEFT"
+    ["anchor"] = _anchor or "TLEFT",
+    ["clickAction"] = nil,
+    ["cmdArgs"] = nil
   }
+  setmetatable(button, Button)
   return button
 end
 
@@ -29,12 +33,26 @@ function Button:draw()
   -- recolor button when user is hovering/clicking 
   if mouseWithin(self) then
     if love.mouse.isDown( 1 ) then
-      love.graphics.setColor(self.r * 0.2, self.r * 0.2, self.r * 0.2)
+      love.graphics.setColor(self.r * 0.2, self.g * 0.2, self.b * 0.2)
+      if self.clickAction then
+        self.clickAction(unpack(self.cmdArgs))
+      end
     else
-      love.graphics.setColor(self.r * 0.8, self.r * 0.8, self.r *0.8)
+      love.graphics.setColor(self.r * 0.8, self.g * 0.8, self.b *0.8)
     end
     love.graphics.rectangle("fill", self.true_x + 2, self.true_y + 2, self.width - 4, self.height - 4)
   end
+end
+
+function Button:setColor(_r, _g, _b)
+  self.r = _r
+  self.g = _g
+  self.b = _b
+end
+
+function Button:setFunction(_clickAction, ...)
+  self.clickAction = _clickAction
+  self.cmdArgs = {...}
 end
 
 function mouseWithin(self)

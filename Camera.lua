@@ -13,6 +13,7 @@ local window_width = love.graphics.getWidth()
 local buffer = 50
 love.graphics.rectangle("fill", window_width - button_width - buffer, window_height - button_height - buffer, button_width, button_height)
 local turnEnd = Button:new(50, 50, 100, 50, "BRIGHT")
+turnEnd:setColor(0, 0, 1)
 
 function Camera:grabUIofUnit(unit)
     UI_unit = unit
