@@ -17,7 +17,6 @@ function love.load()
   }
   active_player = "Francis"
   top_speed = 200
-  rotation_speed = 2.5
   acceleration = 100
 
   -- Scene Globals

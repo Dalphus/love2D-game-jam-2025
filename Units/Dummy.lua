@@ -7,6 +7,7 @@ setmetatable(Dummy, Ally)
 
 function Dummy:new(...)
   local dummy = Ally:new(...)
+  dummy.rotation_speed = 5
   setmetatable(dummy, self)
   return dummy
 end
@@ -26,6 +27,11 @@ function Dummy:draw()
   if next(self.movement_nodes) then
     love.graphics.setColor( 255, 0, 0 )
     love.graphics.line(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y)
+    for i = 1, #self.movement_nodes - 1 do
+      local x1, y1 = self.movement_nodes[i].x, self.movement_nodes[i].y
+      local x2, y2 = self.movement_nodes[i + 1].x, self.movement_nodes[i + 1].y
+      love.graphics.line(x1, y1, x2, y2)
+    end
   end
 end
 
@@ -43,9 +49,9 @@ function Dummy:update( dt )
       end
       local angle_diff = math.abs(current_angle - target_angle)
       if angle_diff < 90 or angle_diff > 270 then
-        self.rotation = self.rotation + dt * rotation_speed / 2
+        self.rotation = self.rotation + dt * self.rotation_speed / 2
       else
-        self.rotation = self.rotation - dt * rotation_speed / 2
+        self.rotation = self.rotation - dt * self.rotation_speed / 2
       end
       self.rotation = self.rotation % ( 2 * math.pi )
 
@@ -56,7 +62,7 @@ function Dummy:update( dt )
         table.remove(self.movement_nodes, 1)
       end
     end
-
+    
     self.speed = self.speed - acceleration * dt * 0.5
     self.speed = clamp( self.speed, 0, top_speed )
 
