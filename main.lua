@@ -4,7 +4,7 @@ if arg[ 2 ] == "vsc_debug" then
 end
 
 require( "helpers" )
-require( "Dummy" )
+require( "Units.Dummy" )
 require( "Camera" )
 
 
@@ -12,8 +12,8 @@ function love.load()
   -- Unit Globals
   projectiles = {}
   players = {}
-  players[ 1 ] = Dummy:new( nil, 400, 200, 30 )
-  players[ 2 ] = Dummy:new( nil, 100, 100, 50 )
+  players[ 1 ] = Dummy:new( 400, 200, 30 )
+  players[ 2 ] = Dummy:new( 100, 100, 50 )
   active_player = 1
   top_speed = 200
   rotation_speed = 2.5
@@ -134,13 +134,6 @@ function love.update( dt )
   -- keep player on screen
   player.x = ( player.x + player.size ) % ( scene.width + player.size * 2 ) - player.size
   player.y = ( player.y + player.size ) % ( scene.height + player.size * 2 ) - player.size
-
-  -- fire projectile
-  player.fire_timer = player.fire_timer - dt
-  if love.keyboard.isDown( "space" ) and player.fire_timer <= 0 then
-    table.insert( projectiles, { x = player.x, y = player.y, rotation = player.rotation })
-    player.fire_timer = fire_delay
-  end
 
   -- update projectiles
   for i, projectile in pairs( projectiles ) do
