@@ -22,6 +22,7 @@ function love.load()
 
   -- Scene Globals
   scene = { width = 2000, height = 800 }
+  TurnEndFlag = false
 
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
@@ -50,6 +51,8 @@ function love.mousepressed( mouseX, mouseY, button )
       end
     end
   end
+
+  Camera:buttonEvents()
 end
 
 function love.mousemoved( mouseX, mouseY, dx, dy )
@@ -110,6 +113,7 @@ function love.update( dt )
     player:update( dt )
   end
 
+  Camera:buttonCooling(dt)
 end
 
 -- Love catches errors to show the nice error screen,

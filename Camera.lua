@@ -15,6 +15,17 @@ love.graphics.rectangle("fill", window_width - button_width - buffer, window_hei
 local turnEnd = Button:new(50, 50, 100, 50, "BRIGHT")
 turnEnd:setColor(0, 0, 1)
 turnEnd:setText("End Turn")
+turnEnd:setFunction(function() co = coroutine.create(function()
+  turnEnd.heldAction = co
+  TurnEndFlag = true
+  local start = love.timer.getTime()
+  while (love.timer.getTime() - start) < 3 do
+    coroutine.yield()
+  end
+  TurnEndFlag = false 
+end)
+coroutine.resume(co)
+end, true)
 
 function Camera:grabUIofUnit(unit)
   UI_unit = unit
@@ -23,6 +34,14 @@ end
 function Camera:renderUI()
   drawUnitUI()
   Button.draw(turnEnd)
+end
+
+function Camera:buttonEvents()
+  Button.mouseEvent(turnEnd)
+end
+
+function Camera:buttonCooling(dt)
+  Button.coolDown(turnEnd, dt)
 end
 
 function drawUnitUI()

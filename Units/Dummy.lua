@@ -30,40 +30,42 @@ function Dummy:draw()
 end
 
 function Dummy:update( dt )
-  if next(self.movement_nodes) then
-    -- rotates Dummy to face movement node
-    -- I have no idea why this works
-    local current_angle = math.deg(self.rotation)
-    local x1, y1 = self.x, self.y
-    local x2, y2 = self.movement_nodes[1].x, self.movement_nodes[1].y
-    local target_angle = math.deg(math.atan2(( y2 - y1 ), ( x2 - x1 ))) - 90
-    if target_angle < 0 then
-      target_angle = target_angle + 360
-    end
-    local angle_diff = math.abs(current_angle - target_angle)
-    if angle_diff < 90 or angle_diff > 270 then
-      self.rotation = self.rotation + dt * rotation_speed / 2
-    else
-      self.rotation = self.rotation - dt * rotation_speed / 2
-    end
-    self.rotation = self.rotation % ( 2 * math.pi )
+  if TurnEndFlag then
+    if next(self.movement_nodes) then
+      -- rotates Dummy to face movement node
+      -- I have no idea why this works
+      local current_angle = math.deg(self.rotation)
+      local x1, y1 = self.x, self.y
+      local x2, y2 = self.movement_nodes[1].x, self.movement_nodes[1].y
+      local target_angle = math.deg(math.atan2(( y2 - y1 ), ( x2 - x1 ))) - 90
+      if target_angle < 0 then
+        target_angle = target_angle + 360
+      end
+      local angle_diff = math.abs(current_angle - target_angle)
+      if angle_diff < 90 or angle_diff > 270 then
+        self.rotation = self.rotation + dt * rotation_speed / 2
+      else
+        self.rotation = self.rotation - dt * rotation_speed / 2
+      end
+      self.rotation = self.rotation % ( 2 * math.pi )
 
-    -- accelerates self forward
-    self.speed = self.speed + acceleration * dt * 1.5
+      -- accelerates self forward
+      self.speed = self.speed + acceleration * dt * 1.5
 
-    if vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= self.size then
-      table.remove(self.movement_nodes, 1)
+      if vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= self.size then
+        table.remove(self.movement_nodes, 1)
+      end
     end
+
+    self.speed = self.speed - acceleration * dt * 0.5
+    self.speed = clamp( self.speed, 0, top_speed )
+
+    -- move self
+    self.x = self.x + math.cos( self.rotation ) * dt * self.speed
+    self.y = self.y + math.sin( self.rotation ) * dt * self.speed
+
+    -- keep self on screen
+    self.x = clamp(self.x, 0 - self.size, scene.width + self.size)
+    self.y = clamp(self.y, 0 - self.size, scene.height + self.size)
   end
-
-  self.speed = self.speed - acceleration * dt * 0.5
-  self.speed = clamp( self.speed, 0, top_speed )
-
-  -- move self
-  self.x = self.x + math.cos( self.rotation ) * dt * self.speed
-  self.y = self.y + math.sin( self.rotation ) * dt * self.speed
-
-  -- keep self on screen
-  self.x = clamp(self.x, 0 - self.size, scene.width + self.size)
-  self.y = clamp(self.y, 0 - self.size, scene.height + self.size)
 end
