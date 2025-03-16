@@ -23,19 +23,19 @@ function Dummy:draw()
   love.graphics.setColor(0, 0, 0)
   love.graphics.line(self.x, self.y, self.x + x2, self.y + y2)
 
-  if self.movement_node.x then
+  if next(self.movement_nodes) then
     love.graphics.setColor( 255, 0, 0 )
-    love.graphics.line(self.x, self.y, self.movement_node.x, self.movement_node.y)
+    love.graphics.line(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y)
   end
 end
 
 function Dummy:update( dt )
-  if self.movement_node.x then
+  if next(self.movement_nodes) then
     -- rotates Dummy to face movement node
     -- I have no idea why this works
     local current_angle = math.deg(self.rotation)
     local x1, y1 = self.x, self.y
-    local x2, y2 = self.movement_node.x, self.movement_node.y
+    local x2, y2 = self.movement_nodes[1].x, self.movement_nodes[1].y
     local target_angle = math.deg(math.atan2(( y2 - y1 ), ( x2 - x1 ))) - 90
     if target_angle < 0 then
       target_angle = target_angle + 360
@@ -50,6 +50,10 @@ function Dummy:update( dt )
 
     -- accelerates dummy forward
     self.speed = self.speed + acceleration * dt * 1.5
+
+    if vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= self.size then
+      table.remove(self.movement_nodes, 1)
+    end
   end
 
   self.speed = self.speed - acceleration * dt * 0.5
