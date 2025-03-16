@@ -87,7 +87,8 @@ function love.draw()
     love.graphics.setColor(0, 0, 0)
     love.graphics.line(player.x, player.y, player.x + x2, player.y + y2)
   end
-
+  
+  love.graphics.setColor(255, 255, 255)
   love.graphics.setCanvas()
   love.graphics.draw( canvas, Camera.x, Camera.y, 0, Camera.zoom, Camera.zoom )
   love.graphics.setColor( 255, 255, 255 )
