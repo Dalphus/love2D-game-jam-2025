@@ -48,18 +48,15 @@ function Dummy:update( dt )
     end
     self.rotation = self.rotation % ( 2 * math.pi )
 
-    -- accelerates self forward
+    -- accelerates dummy forward
     self.speed = self.speed + acceleration * dt * 1.5
   end
 
   self.speed = self.speed - acceleration * dt * 0.5
   self.speed = clamp( self.speed, 0, top_speed )
 
-  -- move self
+  -- move dummy
   self.x = self.x + math.cos( self.rotation ) * dt * self.speed
   self.y = self.y + math.sin( self.rotation ) * dt * self.speed
 
-  -- keep self on screen
-  self.x = clamp(self.x, 0 - self.size, scene.width + self.size)
-  self.y = clamp(self.y, 0 - self.size, scene.height + self.size)
 end
