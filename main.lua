@@ -12,8 +12,8 @@ function love.load()
   -- Unit Globals
   projectiles = {}
   players = {}
-  players[ 1 ] = Dummy:new( 400, 200, 30 )
-  players[ 2 ] = Dummy:new( 100, 100, 50 )
+  players[ 1 ] = Dummy:new( nil, 400, 200, 30 )
+  players[ 2 ] = Dummy:new( nil, 100, 100, 50 )
   active_player = 1
   top_speed = 200
   rotation_speed = 2.5
