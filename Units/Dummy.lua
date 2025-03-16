@@ -1,4 +1,5 @@
 require("Units.Ally")
+require("helpers")
 
 Dummy = {}
 Dummy.__index = Dummy
@@ -10,7 +11,11 @@ function Dummy:new(...)
 end
 
 function Dummy:draw()
-  love.graphics.setColor(255, 255, 255)
+  if mouseInRadius(self, self.size) then
+    love.graphics.setColor(255, 0, 0)
+  else
+    love.graphics.setColor(255, 255, 255)
+  end
   love.graphics.circle("fill", self.x, self.y, self.size, 50)
   local x2 = math.cos(self.rotation) * self.size
   local y2 = math.sin(self.rotation) * self.size
