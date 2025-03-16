@@ -50,6 +50,11 @@ function Dummy:update( dt )
 
     -- accelerates self forward
     self.speed = self.speed + acceleration * dt * 1.5
+
+    if vectorDist(self.x, self.y, self.movement_node.x, self.movement_node.y) <= self.size then
+      self.movement_node.x = nil
+      self.movement_node.y = nil
+    end
   end
 
   self.speed = self.speed - acceleration * dt * 0.5
