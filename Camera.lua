@@ -1,7 +1,7 @@
 COMMAND_WIDTH = 300
 COMMAND_HEIGHT = 100
 
-Camera = {x = 0, y = 0, zoom = 1, min_zoom = 0.5, max_zoom = 2}
+Camera = {x = 100, y = 100, zoom = 1, min_zoom = 0.4, max_zoom = 2}
 
 function Camera:grabUIofUnit(unit)
     local window_height = love.graphics.getHeight()
@@ -23,4 +23,3 @@ end
 -- max and minimum zoom parameters
 -- pan camera by amount
 -- keep camera in bounds of scene
-
