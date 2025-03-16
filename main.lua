@@ -42,7 +42,7 @@ function love.mousepressed( mouseX, mouseY, button )
     for i, player in pairs( players ) do
       if mouseInRadius( player ) then
         active_player = i
-        Camera:grabUIofUnit(active_player)
+        Camera:grabUIofUnit(player)
         break
       end
     end

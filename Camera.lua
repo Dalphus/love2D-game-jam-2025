@@ -15,9 +15,11 @@ love.graphics.rectangle("fill", window_width - button_width - buffer, window_hei
 local turnEnd = Button:new(50, 50, 100, 50, "BRIGHT")
 turnEnd:setColor(0, 0, 1)
 turnEnd:setText("End Turn")
+local unitLabel = love.graphics.newText(love.graphics.getFont(), {{1,1,1}, "Empty"})
 
 function Camera:grabUIofUnit(unit)
     UI_unit = unit
+    unitLabel:set(unit.name)
 end
 
 function Camera:renderUI()
@@ -39,6 +41,9 @@ function drawUnitUI()
         y4 = window_height
         love.graphics.setColor(0, 0, 255)
         love.graphics.line(x1, y1, x2, y2, x3, y3, x4 ,y4)
+        love.graphics.rectangle("fill", x2, y2, COMMAND_WIDTH * 2, COMMAND_HEIGHT/4)
+        love.graphics.setColor(1, 1, 1)
+        love.graphics.draw(unitLabel, x2 + 5, y2 + (COMMAND_HEIGHT/8) - (unitLabel:getHeight()/2))
     end
 end
 
