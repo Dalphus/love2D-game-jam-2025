@@ -5,6 +5,7 @@ end
 
 require( "helpers" )
 require( "Units.Dummy" )
+require( "Units.Dummy" )
 require( "Camera" )
 
 
@@ -67,7 +68,7 @@ function love.wheelmoved( x, y )
   Camera.zoom = Camera.zoom + y * 0.05
   Camera.zoom = math.max(Camera.min_zoom, Camera.zoom)
   Camera.zoom = math.min(Camera.max_zoom, Camera.zoom)
-  
+
   -- I generated this algorithm with Wolphram Alpha, don't ask me how it works
   local mouse_x, mouse_y = love.mouse.getPosition()
   Camera.x = (Camera.zoom / old_zoom) * (Camera.x - mouse_x) + mouse_x
@@ -123,10 +124,7 @@ function love.update( dt )
   -- keep player on screen
   player.x = ( player.x + player.size ) % ( scene.width + player.size * 2 ) - player.size
   player.y = ( player.y + player.size ) % ( scene.height + player.size * 2 ) - player.size
-
-  -- fire projectile
-
-
+  
 end
 
 -- Love catches errors to show the nice error screen,
