@@ -55,10 +55,12 @@ end
 ParticleGenerator = {}
 ParticleGenerator.__index = ParticleGenerator
 
-function ParticleGenerator:new( _parent )
+function ParticleGenerator:new( _parent, _interval )
   local generator = {
     ["parent"] = _parent,
-    ["particles"] = {}
+    ["particles"] = {},
+    ["timer"] = 0,
+    ["interval"] = _interval
   }
 
   setmetatable(generator, self)
@@ -67,6 +69,11 @@ function ParticleGenerator:new( _parent )
 end
 
 function ParticleGenerator:update( dt )
+  self.timer = self.timer + dt
+  if self.timer >= self.interval then
+    self.timer = 0
+    self:add( 100, { 0, 1, 0 } )
+  end
   for i = #self.particles, 1, -1 do
     local particle = self.particles[i]
     particle:update( dt )
