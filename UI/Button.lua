@@ -14,7 +14,8 @@ function Button:new(_x, _y, _width, _height, _anchor)
     ["b"] = 1,
     ["anchor"] = _anchor or "TLEFT",
     ["clickAction"] = nil,
-    ["cmdArgs"] = nil
+    ["cmdArgs"] = nil,
+    ["textObject"] = nil,
   }
   setmetatable(button, Button)
   return button
@@ -42,6 +43,11 @@ function Button:draw()
     end
     love.graphics.rectangle("fill", self.true_x + 2, self.true_y + 2, self.width - 4, self.height - 4)
   end
+
+  love.graphics.setColor(1, 1, 1)
+  if self.textObject then
+    love.graphics.draw(self.textObject, self.true_x + (self.width/2) - (self.textObject:getWidth()/2), self.true_y + (self.height/2) - (self.textObject:getHeight()/2))
+  end
 end
 
 function Button:setColor(_r, _g, _b)
@@ -53,6 +59,11 @@ end
 function Button:setFunction(_clickAction, ...)
   self.clickAction = _clickAction
   self.cmdArgs = {...}
+end
+
+function Button:setText(_text)
+  local font = love.graphics.getFont()
+  self.textObject = love.graphics.newText(font, {{1,1,1}, _text})
 end
 
 function mouseWithin(self)

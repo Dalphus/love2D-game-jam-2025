@@ -32,6 +32,9 @@ function love.load()
   -- make the mouse visible
   love.mouse.setVisible(true)
 
+  -- set default font
+  love.graphics.setFont(love.graphics.newFont(50))
+
 end
 
 function love.mousepressed( mouseX, mouseY, button )
