@@ -81,14 +81,9 @@ function love.draw()
 
   -- draw players
   for _, player in pairs( players ) do
-    love.graphics.setColor(255, 255, 255)
-    love.graphics.circle("fill", player.x, player.y, player.size, 50)
-    local x2 = math.cos(player.rotation) * player.size
-    local y2 = math.sin(player.rotation) * player.size
-    love.graphics.setColor(0, 0, 0)
-    love.graphics.line(player.x, player.y, player.x + x2, player.y + y2)
+    player:draw()
   end
-  
+
   love.graphics.setColor(255, 255, 255)
   love.graphics.setCanvas()
   love.graphics.draw( canvas, Camera.x, Camera.y, 0, Camera.zoom, Camera.zoom )
@@ -124,7 +119,7 @@ function love.update( dt )
   -- keep player on screen
   player.x = ( player.x + player.size ) % ( scene.width + player.size * 2 ) - player.size
   player.y = ( player.y + player.size ) % ( scene.height + player.size * 2 ) - player.size
-  
+
 end
 
 -- Love catches errors to show the nice error screen,
