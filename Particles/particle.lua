@@ -84,6 +84,12 @@ function ParticleGenerator:update( dt )
   end
 end
 
+function ParticleGenerator:draw()
+  for _, particle in pairs( self.particles ) do
+    particle:draw()
+  end
+end
+
 function ParticleGenerator:add( _lifetime, _color )
   local particle = Particle:new(
     self.parent.x,

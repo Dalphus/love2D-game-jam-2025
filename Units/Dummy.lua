@@ -1,4 +1,5 @@
 require("Units.Ally")
+require("Particles.Particle")
 require("helpers")
 
 Dummy = {}
@@ -12,7 +13,15 @@ function Dummy:new(...)
   return dummy
 end
 
+function Dummy:addParticleGenerator( interval )
+  self.particle_generator = ParticleGenerator:new( self, interval )
+end
+
 function Dummy:draw()
+  if self.particle_generator then
+    self.particle_generator:draw()
+  end
+
   if mouseInRadius(self, self.size) then
     love.graphics.setColor(255, 0, 0)
   else
@@ -36,9 +45,11 @@ function Dummy:draw()
 end
 
 function Dummy:update( dt )
+  if self.particle_generator then
+    self.particle_generator:update( dt )
+  end
   if next(self.movement_nodes) then
     -- rotates Dummy to face movement node
-    -- I know how this works now!
     local x1, y1 = self.x, self.y
     local x2, y2 = self.movement_nodes[ 1 ].x, self.movement_nodes[ 1 ].y
     local angle_diff = math.atan2(( y2 - y1 ), ( x2 - x1 )) - self.rotation

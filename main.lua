@@ -19,6 +19,9 @@ function love.load()
   top_speed = 200
   acceleration = 100
 
+  -- particle test
+  players[ "Francis" ]:addParticleGenerator( 0.1 )
+
   -- Scene Globals
   scene = { width = 2000, height = 800 }
 
