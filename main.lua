@@ -4,7 +4,7 @@ if arg[ 2 ] == "vsc_debug" then
 end
 
 require( "helpers" )
-require( "Units.Dummy" )
+require( "Particles.Particle" )
 require( "Units.Dummy" )
 require( "Camera" )
 
