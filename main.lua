@@ -17,13 +17,12 @@ function love.load()
   }
   active_player = "Francis"
   top_speed = 200
-  rotation_speed = 2.5
   acceleration = 100
-  fire_delay = 0.2
 
   -- Scene Globals
   scene = { width = 2000, height = 800 }
-  
+  TurnEndFlag = false
+
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
   love.graphics.setBackgroundColor( 0, 0, 0 )
@@ -39,14 +38,26 @@ end
 
 function love.mousepressed( mouseX, mouseY, button )
   if button == 1 then
-    for i, player in pairs( players ) do
-      if mouseInRadius( player ) then
-        active_player = i
-        Camera:grabUIofUnit(player)
-        break
+    if love.keyboard.isDown( "space" ) then
+      players[ active_player ]:addMovementNode( getRelativeCursor() )
+    else
+      for i, player in pairs( players ) do
+        if mouseInRadius( player ) then
+          active_player = i
+          Camera:grabUIofUnit(active_player)
+          break
+        end
+      end
+    end
+  elseif button == 2 then
+    if love.keyboard.isDown( "space" ) then
+      if love.keyboard.isDown( "space" ) then
+        players[ active_player ]:undoMovementNode()
       end
     end
   end
+
+  Camera:buttonEvents()
 end
 
 function love.mousemoved( mouseX, mouseY, dx, dy )
@@ -98,33 +109,16 @@ function love.draw()
 end
 
 function love.update( dt )
-  -- update player
-  local player = players[ active_player ]
 
   if love.keyboard.isScancodeDown( "escape" ) then
     love.event.quit()
   end
-  
-  if love.keyboard.isDown( "w" ) or love.keyboard.isDown( "up" ) then
-    player.speed = player.speed < top_speed and ( player.speed + acceleration * dt ) or top_speed
-  else
-    player.speed = player.speed > 0 and ( player.speed - acceleration * dt * 0.5 ) or 0
+  -- update player
+  for _, player in pairs( players ) do
+    player:update( dt )
   end
 
-  if love.keyboard.isDown( "a" ) or love.keyboard.isDown( "left" ) then
-    player.rotation = player.rotation - dt * rotation_speed
-  elseif love.keyboard.isDown( "d" ) or love.keyboard.isDown( "right" ) then
-    player.rotation = player.rotation + dt * rotation_speed
-  end
-
-  -- move player
-  player.x = player.x + math.cos( player.rotation ) * dt * player.speed
-  player.y = player.y + math.sin( player.rotation ) * dt * player.speed
-
-  -- keep player on screen
-  player.x = ( player.x + player.size ) % ( scene.width + player.size * 2 ) - player.size
-  player.y = ( player.y + player.size ) % ( scene.height + player.size * 2 ) - player.size
-
+  Camera:buttonCooling(dt)
 end
 
 -- Love catches errors to show the nice error screen,

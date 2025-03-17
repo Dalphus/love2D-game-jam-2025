@@ -5,9 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "debug current lua file",
+            "type": "lua",
+            "request": "launch",
+            "program": "${file}",
+            "stopOnEntry": false,
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Debug LOVE",
             "type": "lua-local",
             "request": "launch",
-            "name": "Debug LOVE",
             "program":
             {
                 "command": "love"

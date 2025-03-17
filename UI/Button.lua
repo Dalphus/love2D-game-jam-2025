@@ -16,6 +16,7 @@ function Button:new(_x, _y, _width, _height, _anchor)
     ["clickAction"] = nil,
     ["cmdArgs"] = nil,
     ["textObject"] = nil,
+    ["heldAction"] = nil,
   }
   setmetatable(button, Button)
   return button
@@ -27,17 +28,20 @@ function Button:draw()
   else
     coordTopLeft(self)
   end
+  
+  if self.heldAction then
+    love.graphics.setColor(1, 0, 0)
+  else
+    love.graphics.setColor(self.r, self.g, self.b)
+  end
 
-  love.graphics.setColor(self.r, self.g, self.b)
+  
   love.graphics.rectangle("fill", self.true_x, self.true_y, self.width, self.height)
 
   -- recolor button when user is hovering/clicking 
-  if mouseWithin(self) then
+  if mouseWithin(self) and not self.heldAction then
     if love.mouse.isDown( 1 ) then
       love.graphics.setColor(self.r * 0.2, self.g * 0.2, self.b * 0.2)
-      if self.clickAction then
-        self.clickAction(unpack(self.cmdArgs))
-      end
     else
       love.graphics.setColor(self.r * 0.8, self.g * 0.8, self.b *0.8)
     end
@@ -50,15 +54,33 @@ function Button:draw()
   end
 end
 
+function Button:mouseEvent()
+  if love.mouse.isDown( 1 ) and mouseWithin(self) then
+    if self.clickAction then
+      self.clickAction(unpack(self.cmdArgs))
+    end
+  end
+end
+
 function Button:setColor(_r, _g, _b)
   self.r = _r
   self.g = _g
   self.b = _b
 end
 
-function Button:setFunction(_clickAction, ...)
+function Button:setFunction(_clickAction, _toggle, ...)
   self.clickAction = _clickAction
+  self.toggle = _toggle
   self.cmdArgs = {...}
+end
+
+function Button:coolDown(dt)
+  if self.heldAction then
+    coroutine.resume(self.heldAction)
+    if coroutine.status(self.heldAction) == 'dead' then
+      self.heldAction = nil
+    end
+  end
 end
 
 function Button:setText(_text)
