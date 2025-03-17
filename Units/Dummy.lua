@@ -9,6 +9,7 @@ function Dummy:new(...)
   local dummy = Ally:new(...)
   dummy.rotation_speed = 5
   setmetatable(dummy, self)
+  dummy.name = "Dummy"
   return dummy
 end
 

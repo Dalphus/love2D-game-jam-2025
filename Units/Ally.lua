@@ -7,6 +7,7 @@ setmetatable(Ally, Unit)
 
 function Ally:new(...)
   local ally = Unit:new(...)
+  ally.name = "Ally"
   ally.movement_nodes = {}
   setmetatable(ally, self)
   return ally

@@ -8,6 +8,7 @@ function Unit:new(_x, _y, _size, _rotation, _speed)
     ["size"]     = _size     or 50,
     ["rotation"] = _rotation or 0,
     ["speed"]    = _speed    or 0,
+    ["name"]     = "Unit"
   }
   return unit
 end
