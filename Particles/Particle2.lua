@@ -7,7 +7,7 @@ function Particle:new( _x, _y, _size, _rotation, _speed, _lifetime, _color )
     ["y"]        = _y,
     ["size"]     = _size,
     ["rotation"] = _rotation,
-    ["speed"]    = top_speed,
+    ["speed"]    = _speed,
     ["lifetime"] = _lifetime,
     ["age"]      = 0,
     ["color"]    = _color

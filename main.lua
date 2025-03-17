@@ -5,17 +5,16 @@ end
 
 require( "helpers" )
 require( "Units.Dummy" )
+require( "Units.Stinky" )
 require( "Camera" )
 
 function love.load()
   -- Unit Globals
   players = {
     ["Francis"] = Dummy:new( 400, 200, 30 ),
-    ["Geraldo"] = Dummy:new( 100, 100, 50 )
+    ["Geraldo"] = Stinky:new( 100, 100, 50 )
   }
   active_player = "Francis"
-  top_speed = 200
-  acceleration = 100
 
   -- particle test
   players[ "Francis" ]:addParticleGenerator( 0.1 )
@@ -28,7 +27,6 @@ function love.load()
   love.graphics.setBackgroundColor( 0, 0, 0 )
   love.graphics.setColor( 255, 255, 255 )
 
-  -- make the mouse visible
   love.mouse.setVisible(true)
 
   -- set default font

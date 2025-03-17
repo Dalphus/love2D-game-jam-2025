@@ -7,6 +7,9 @@ setmetatable(Ally, Unit)
 
 function Ally:new(...)
   local ally = Unit:new(...)
+  self.top_speed = 200
+  self.acceleration = 100
+  self.rotation_speed = 2
   ally.movement_nodes = {}
   setmetatable(ally, self)
   return ally
