@@ -12,13 +12,12 @@ function Stinky:new(...)
   stinky.top_speed = 100
   stinky.acceleration = 50
   stinky.rotation_speed = 2
-  stinky.emitter = ParticleGenerator:new( stinky, SillySpore, SuperSpore )
+  stinky.emitter = ParticleGenerator:new( stinky)
+  stinky.emitter:addParticle( SillySpore )
+  stinky.emitter:addParticle( SuperSpore )
+
   setmetatable(stinky, self)
   return stinky
-end
-
-function Stinky:addParticleGenerator( interval )
-  self.particle_generator = ParticleGenerator:new( self, interval )
 end
 
 function Stinky:draw()
@@ -31,4 +30,7 @@ function Stinky:draw()
 
 end
 
-Stinky.update = Dummy.update
+function Stinky:update( dt )
+  stinky.emitter:update( dt )
+  Dummy.update( self, dt )
+end

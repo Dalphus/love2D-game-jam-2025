@@ -13,15 +13,7 @@ function Dummy:new(...)
   return dummy
 end
 
-function Dummy:addParticleGenerator( interval )
-  self.particle_generator = ParticleGenerator:new( self, interval )
-end
-
 function Dummy:draw()
-  if self.particle_generator then
-    self.particle_generator:draw()
-  end
-
   if mouseInRadius(self, self.size) then
     love.graphics.setColor(255, 0, 0)
   else

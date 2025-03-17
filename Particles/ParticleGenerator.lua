@@ -3,18 +3,13 @@ require("Particles.Particle2")
 ParticleGenerator = {}
 ParticleGenerator.__index = ParticleGenerator
 
-function ParticleGenerator:new( o, ... )
+function ParticleGenerator:new( _parent )
   local generator = {
-    parent = o,
+    parent = _parent,
     emitters = {},
     particles = {},
   }
   setmetatable(generator, self)
-
-  for _, emitter in pairs{...} do
-    generator:add( emitter )
-  end
-
   return generator
 end
 
