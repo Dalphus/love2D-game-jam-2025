@@ -20,8 +20,9 @@ function love.load()
   acceleration = 100
 
   -- Scene Globals
-  scene = { width = 2000, height = 800 }
+  scene = { width = 4096, height = 2160 }
   TurnEndFlag = false
+  BackgroundZero = love.graphics.newImage( "Assets/Backgrounds/Bad.png")
 
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
@@ -93,6 +94,10 @@ end
 function love.draw()
   local canvas = love.graphics.newCanvas( scene.width, scene.height )
   love.graphics.setCanvas( canvas )
+
+  -- draw background
+  love.graphics.setColor(255, 255, 255)
+  love.graphics.draw(BackgroundZero, 0, 0)
 
   -- draw players
   for _, player in pairs( players ) do
