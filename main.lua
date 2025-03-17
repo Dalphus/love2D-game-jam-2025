@@ -92,7 +92,7 @@ function love.wheelmoved( x, y )
 end
 
 function love.draw()
-  local canvas = love.graphics.newCanvas( scene.width, scene.height )
+  local canvas = love.graphics.newCanvas( scene.width, scene.height ) -- keeps crashing here eventually
   love.graphics.setCanvas( canvas )
 
   -- draw background
