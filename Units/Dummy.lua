@@ -1,6 +1,6 @@
 require("Units.Ally")
-require("Particles.Particle")
-require("helpers")
+require( "Particles.ParticleGenerator" )
+
 
 Dummy = {}
 Dummy.__index = Dummy

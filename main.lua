@@ -4,10 +4,8 @@ if arg[ 2 ] == "vsc_debug" then
 end
 
 require( "helpers" )
-require( "Particles.Particle" )
 require( "Units.Dummy" )
 require( "Camera" )
-
 
 function love.load()
   -- Unit Globals
