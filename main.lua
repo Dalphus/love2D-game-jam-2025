@@ -7,14 +7,13 @@ require( "helpers" )
 require( "Units.Dummy" )
 require( "Units.Dummy" )
 require( "Camera" )
+require( "Scenes.LevelLoader" )
+require( "Scenes.SceneOne" )
 
 
 function love.load()
   -- Unit Globals
-  players = {
-    ["Francis"] = Dummy:new( 400, 200, 30 ),
-    ["Geraldo"] = Dummy:new( 100, 100, 50 )
-  }
+  players = {}
   active_player = "Francis"
   top_speed = 200
   acceleration = 100
@@ -22,7 +21,6 @@ function love.load()
   -- Scene Globals
   scene = { width = 4096, height = 2160 }
   TurnEndFlag = false
-  BackgroundZero = love.graphics.newImage( "Assets/Backgrounds/Bad.png")
 
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
@@ -35,6 +33,8 @@ function love.load()
   -- set default font
   love.graphics.setFont(love.graphics.newFont(50))
 
+  -- switch to tile screen eventually
+  LevelLoader:setCurrentLevel(SceneOne:new())
 end
 
 function love.mousepressed( mouseX, mouseY, button )
@@ -96,8 +96,7 @@ function love.draw()
   love.graphics.setCanvas( canvas )
 
   -- draw background
-  love.graphics.setColor(255, 255, 255)
-  love.graphics.draw(BackgroundZero, 0, 0)
+  LevelLoader:draw()
 
   -- draw players
   for _, player in pairs( players ) do
