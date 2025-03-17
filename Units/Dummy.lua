@@ -10,6 +10,7 @@ function Dummy:new(...)
   local dummy = Ally:new(...)
   dummy.rotation_speed = 5
   setmetatable(dummy, self)
+  dummy.name = "Dummy"
   return dummy
 end
 
@@ -37,31 +38,29 @@ function Dummy:draw()
 end
 
 function Dummy:update( dt )
-  if self.particle_generator then
-    self.particle_generator:update( dt )
-  end
-  if next(self.movement_nodes) then
-    -- rotates Dummy to face movement node
-    local x1, y1 = self.x, self.y
-    local x2, y2 = self.movement_nodes[ 1 ].x, self.movement_nodes[ 1 ].y
-    local angle_diff = math.atan2(( y2 - y1 ), ( x2 - x1 )) - self.rotation
-    angle_diff = ( angle_diff + math.pi ) % ( 2 * math.pi ) - math.pi
-    self.rotation = self.rotation + dt * self.rotation_speed * sign( angle_diff )
-    self.rotation = self.rotation % ( 2 * math.pi )
+  if TurnEndFlag then
+    if next(self.movement_nodes) then
+      -- rotates Dummy to face movement node
+      local x1, y1 = self.x, self.y
+      local x2, y2 = self.movement_nodes[ 1 ].x, self.movement_nodes[ 1 ].y
+      local angle_diff = math.atan2(( y2 - y1 ), ( x2 - x1 )) - self.rotation
+      angle_diff = ( angle_diff + math.pi ) % ( 2 * math.pi ) - math.pi
+      self.rotation = self.rotation + dt * self.rotation_speed * sign( angle_diff )
+      self.rotation = self.rotation % ( 2 * math.pi )
 
-    -- accelerates dummy forward
-    self.speed = self.speed + self.acceleration * dt * 1.5
+      -- accelerates dummy forward
+      self.speed = self.speed + self.acceleration * dt * 1.5
 
-    if vectorDist( x1, y1, x2, y2 ) <= self.size then
-      table.remove( self.movement_nodes, 1 )
+      if vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= self.size then
+        table.remove(self.movement_nodes, 1)
+      end
     end
+
+    self.speed = self.speed - self.acceleration * dt * 0.5
+    self.speed = clamp( self.speed, 0, top_speed )
+
+    -- move dummy
+    self.x = self.x + math.cos( self.rotation ) * dt * self.speed
+    self.y = self.y + math.sin( self.rotation ) * dt * self.speed
   end
-
-  self.speed = self.speed - self.acceleration * dt * 0.5
-  self.speed = clamp( self.speed, 0, self.top_speed )
-
-  -- move dummy
-  self.x = self.x + math.cos( self.rotation ) * dt * self.speed
-  self.y = self.y + math.sin( self.rotation ) * dt * self.speed
-
 end
