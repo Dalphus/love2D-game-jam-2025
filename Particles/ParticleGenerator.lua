@@ -18,7 +18,7 @@ function ParticleGenerator:new( o, ... )
   return generator
 end
 
-function ParticleGenerator:add( _particle, _interval, _on_death )
+function ParticleGenerator:add( o )
   local emitter = {
     particle = _particle,
     timer = 0,
@@ -34,7 +34,7 @@ function ParticleGenerator:update( dt )
     emitter.timer = emitter.timer + dt
     if emitter.timer >= emitter.interval then
       emitter.timer = 0
-      self:emit( emitter.particle )
+      table.insert( self.particles, emitter.particle:new() )
     end
   end
   for i, particle in pairs(self.particles) do
@@ -53,15 +53,4 @@ function ParticleGenerator:draw()
   for _, particle in pairs( self.particles ) do
     particle:draw(self.parent)
   end
-end
-
-function ParticleGenerator:emit( o )
-  local particle = Particle:new({
-    speed    = o.speed,
-    color    = o.color,
-    size     = o.size,
-    lifetime = o.lifetime or 1,
-  })
-  table.insert( self.particles, particle )
-  return particle
 end
