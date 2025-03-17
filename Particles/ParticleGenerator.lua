@@ -13,7 +13,7 @@ function ParticleGenerator:new( _parent )
   return generator
 end
 
-function ParticleGenerator:add( o )
+function ParticleGenerator:add( _particle, _interval, _on_death )
   local emitter = {
     particle = _particle,
     timer = 0,
@@ -46,6 +46,6 @@ end
 
 function ParticleGenerator:draw()
   for _, particle in pairs( self.particles ) do
-    particle:draw(self.parent)
+    particle:draw( self.parent )
   end
 end

@@ -3,8 +3,8 @@ Particle.__index = Particle
 
 function Particle:new( o )
   local particle = {
-    x        = 0,
-    y        = 0,
+    x        = o.x or 0,
+    y        = o.y or 0,
     speed    = o.speed,
     color    = o.color,
     size     = o.size,

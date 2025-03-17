@@ -16,9 +16,6 @@ function love.load()
   }
   active_player = "Francis"
 
-  -- particle test
-  players[ "Francis" ]:addParticleGenerator( 0.1 )
-
   -- Scene Globals
   scene = { width = 2000, height = 800 }
 

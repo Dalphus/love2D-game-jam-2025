@@ -6,10 +6,10 @@ SillySpore.__index = SillySpore
 setmetatable(SillySpore, Particle)
 function SillySpore:new()
   local particle = Particle:new({
-    speed = 10,
-    interval = 0.5,
+    speed = 30,
+    lifetime = 1,
     color = {rgb("#00FFFF")},
-    size = 5,
+    size = 15,
   })
   setmetatable(particle, self)
   return particle
@@ -21,7 +21,6 @@ setmetatable(MiniSpore, Particle)
 function MiniSpore:new()
   local particle = Particle:new({
     speed = 10,
-    interval = 0.5,
     lifetime = 1,
     color = {rgb("#FFFF00")},
     size = 5,
@@ -36,10 +35,9 @@ setmetatable(SuperSpore, Particle)
 function SuperSpore:new()
   local particle = Particle:new({
     speed = 20,
-    interval = 0.5,
+    lifetime = 2,
     color = {rgb("#00FF00")},
-    size = 100,
-    on_expire = MiniSpore,
+    size = 30
   })
   setmetatable(particle, self)
   return particle
