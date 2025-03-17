@@ -60,3 +60,14 @@ function sign(val)
     return 0
   end
 end
+
+function rgb( ... )
+  local r, g, b = ...
+  if not g then
+    local hex = r:gsub("#", "")
+    r = tonumber(hex:sub(1, 2), 16)
+    g = tonumber(hex:sub(3, 4), 16)
+    b = tonumber(hex:sub(5, 6), 16)
+  end
+  return r / 255, g / 255, b / 255
+end

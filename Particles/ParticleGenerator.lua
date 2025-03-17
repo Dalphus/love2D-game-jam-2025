@@ -1,55 +1,67 @@
-
 require("Particles.Particle2")
 
 ParticleGenerator = {}
 ParticleGenerator.__index = ParticleGenerator
 
-function ParticleGenerator:new( _parent, _interval )
+function ParticleGenerator:new( o, ... )
   local generator = {
-    ["parent"] = _parent,
-    ["particles"] = {},
-    ["timer"] = 0,
-    ["interval"] = _interval
+    parent = o,
+    emitters = {},
+    particles = {},
   }
-
-  local x = Particle:new( 100, 100, 10, 0, 10, 100, { 1, 1, 0 } )
-
   setmetatable(generator, self)
+
+  for _, emitter in pairs{...} do
+    generator:add( emitter )
+  end
 
   return generator
 end
 
+function ParticleGenerator:add( _particle, _interval, _on_death )
+  local emitter = {
+    particle = _particle,
+    timer = 0,
+    interval = _interval,
+    on_death = _on_death,
+    age = 0,
+  }
+  table.insert( self.emitters, emitter )
+end
+
 function ParticleGenerator:update( dt )
-  self.timer = self.timer + dt
-  if self.timer >= self.interval then
-    self.timer = 0
-    self:add( .6, { 1, 1, 0 } )
+  for _, emitter in pairs(self.emitters) do
+    emitter.timer = emitter.timer + dt
+    if emitter.timer >= emitter.interval then
+      emitter.timer = 0
+      self:emit( emitter.particle )
+    end
   end
   for i, particle in pairs(self.particles) do
     particle:update( dt )
     if particle:isDead() then
-      particle:delete()
+      if particle.on_death then
+        particle:on_death()
+      end
       table.remove( self.particles, i )
+      particle:delete()
     end
   end
 end
 
 function ParticleGenerator:draw()
   for _, particle in pairs( self.particles ) do
-    particle:draw()
+    particle:draw(self.parent)
   end
 end
 
-function ParticleGenerator:add( _lifetime, _color )
-  local particle = Particle:new(
-    self.parent.x,
-    self.parent.y,
-    10,
-    math.random() * 2 * math.pi,
-    10,
-    _lifetime or 1,
-    _color
-  )
+function ParticleGenerator:emit( o )
+  local particle = Particle:new({
+    speed    = o.speed,
+    color    = o.color,
+    size     = o.size,
+    lifetime = o.lifetime or 1,
+  })
   table.insert( self.particles, particle )
   return particle
 end

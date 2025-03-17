@@ -1,5 +1,6 @@
 require("Units.Ally")
 require( "Particles.ParticleGenerator" )
+require( "Particles.Presets" )
 
 
 Stinky = {}
@@ -7,12 +8,13 @@ Stinky.__index = Stinky
 setmetatable(Stinky, Ally)
 
 function Stinky:new(...)
-  local Stinky = Ally:new(...)
-  self.top_speed = 100
-  self.acceleration = 50
-  self.rotation_speed = 2
-  setmetatable(Stinky, self)
-  return Stinky
+  local stinky = Ally:new(...)
+  stinky.top_speed = 100
+  stinky.acceleration = 50
+  stinky.rotation_speed = 2
+  stinky.emitter = ParticleGenerator:new( stinky, SillySpore, SuperSpore )
+  setmetatable(stinky, self)
+  return stinky
 end
 
 function Stinky:addParticleGenerator( interval )
