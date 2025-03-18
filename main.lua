@@ -93,6 +93,7 @@ function love.draw()
   -- draw players
   for _, player in pairs( players ) do
     player:draw()
+    player:shadowDraw()
   end
 
   love.graphics.setColor(255, 255, 255)
@@ -112,6 +113,7 @@ function love.update( dt )
   -- update player
   for _, player in pairs( players ) do
     player:update( dt )
+    player:shadowUpdate( dt ) 
   end
 
   Camera:buttonCooling(dt)

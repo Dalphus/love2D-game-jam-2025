@@ -12,6 +12,8 @@ function Ally:new(...)
   ally.rotation_speed = 2
   ally.name = "Ally"
   ally.movement_nodes = {}
+  ally.shadowx = ally.x
+  ally.shadowy = ally.y
   setmetatable(ally, self)
   return ally
 end
@@ -23,4 +25,45 @@ end
 
 function Ally:undoMovementNode()
   table.remove(self.movement_nodes)
+end
+
+function Ally:shadowUpdate(dt)
+  local speed = 0
+  
+  -- update self
+  if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
+    speed = 100
+  else
+    speed = 0
+  end
+
+  if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+    self.rotation = self.rotation - dt * self.rotation_speed
+  elseif love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+    self.rotation = self.rotation + dt * self.rotation_speed
+  end
+
+  -- move self
+  self.shadowx = self.shadowx + math.cos(self.rotation) * dt * speed
+  self.shadowy = self.shadowy + math.sin(self.rotation) * dt * speed
+  
+  -- keep self on screen
+  self.shadowx = (self.shadowx + self.size) % (love.graphics.getWidth() + self.size * 2) - self.size
+  self.shadowy = (self.shadowy + self.size) % (love.graphics.getHeight() + self.size * 2) - self.size
+
+  -- add node
+  if speed then
+    self:addMovementNode(self.shadowx, self.shadowy)
+  end
+end
+
+function Ally:shadowDraw()
+  if self.movement_nodes then
+    love.graphics.setColor(0.1, 0.1, 0.1)
+    love.graphics.circle("fill", self.shadowx, self.shadowy, self.size, 50)
+    local x2 = math.cos(self.rotation) * self.size
+    local y2 = math.sin(self.rotation) * self.size
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.line(self.shadowx, self.shadowy, self.shadowx + x2, self.shadowy + y2)
+  end
 end
