@@ -21,6 +21,7 @@ function love.load()
   -- Scene Globals
   scene = { width = 4096, height = 2160 }
   TurnEndFlag = false
+  game_canvas = love.graphics.newCanvas( scene.width, scene.height )
 
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
@@ -92,8 +93,8 @@ function love.wheelmoved( x, y )
 end
 
 function love.draw()
-  local canvas = love.graphics.newCanvas( scene.width, scene.height ) -- keeps crashing here eventually
-  love.graphics.setCanvas( canvas )
+  love.graphics.setCanvas( game_canvas )
+  love.graphics.clear()
 
   -- draw background
   LevelLoader:draw()
@@ -105,11 +106,11 @@ function love.draw()
 
   love.graphics.setColor(255, 255, 255)
   love.graphics.setCanvas()
-  love.graphics.draw( canvas, Camera.x, Camera.y, 0, Camera.zoom, Camera.zoom )
+  love.graphics.draw( game_canvas, Camera.x, Camera.y, 0, Camera.zoom, Camera.zoom )
   love.graphics.setColor( 255, 255, 255 )
   love.graphics.rectangle( "line", Camera.x, Camera.y, scene.width * Camera.zoom, scene.height * Camera.zoom )
 
-  Camera:renderUI()  
+  Camera:renderUI()
 end
 
 function love.update( dt )
