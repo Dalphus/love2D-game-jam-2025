@@ -30,6 +30,9 @@ function love.load()
   -- set default font
   love.graphics.setFont(love.graphics.newFont(50))
 
+  -- Wall Stuff
+
+
 end
 
 function love.mousepressed( mouseX, mouseY, button )
@@ -56,11 +59,11 @@ function love.mousepressed( mouseX, mouseY, button )
   Camera:buttonEvents()
 end
 
-function love.mousemoved( mouseX, mouseY, dx, dy )
+function love.mousemoved( mouseX, mouseY, dx, dy, force )
   local total_width = scene.width * Camera.zoom
   local total_height = scene.height * Camera.zoom
 
-  if love.mouse.isDown( 2 ) then
+  if love.mouse.isDown( 2 ) or force then
     if love.graphics.getWidth() - total_width - 100 < 0 then
       Camera.x = clamp( Camera.x + dx, love.graphics.getWidth() - total_width - 50, 50 )
     else
@@ -84,6 +87,7 @@ function love.wheelmoved( x, y )
   local mouse_x, mouse_y = love.mouse.getPosition()
   Camera.x = (Camera.zoom / old_zoom) * (Camera.x - mouse_x) + mouse_x
   Camera.y = (Camera.zoom / old_zoom) * (Camera.y - mouse_y) + mouse_y
+  love.mousemoved( mouse_x, mouse_y, 0, 0, true )
 end
 
 function love.draw()
