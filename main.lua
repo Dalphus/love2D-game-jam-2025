@@ -7,6 +7,7 @@ require( "helpers" )
 require( "Units.Dummy" )
 require( "Units.Stinky" )
 require( "Camera" )
+require( "Walls" )
 
 function love.load()
   -- Unit Globals
@@ -31,8 +32,7 @@ function love.load()
   love.graphics.setFont(love.graphics.newFont(50))
 
   -- Wall Stuff
-
-
+  Walls:load()
 end
 
 function love.mousepressed( mouseX, mouseY, button )
@@ -98,6 +98,8 @@ function love.draw()
   for _, player in pairs( players ) do
     player:draw()
   end
+
+  Walls:draw()
 
   love.graphics.setColor(255, 255, 255)
   love.graphics.setCanvas()
