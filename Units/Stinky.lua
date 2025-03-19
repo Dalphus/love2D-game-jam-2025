@@ -12,7 +12,7 @@ function Stinky:new(...)
   stinky.top_speed = 100
   stinky.acceleration = 50
   stinky.rotation_speed = 2
-  stinky.emitter = ParticleGenerator:new( stinky )
+  -- stinky.emitter = ParticleGenerator:new( stinky )
   stinky.emitter:add( SillySpore, .1 )
   stinky.emitter:add( SuperSpore, .5 )
 
