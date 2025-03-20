@@ -24,8 +24,10 @@ function Ally:addMovementNode(_x, _y)
   table.insert(self.movement_nodes, Node:new(_x, _y))
 end
 
-function Ally:undoMovementNode()
-  table.remove(self.movement_nodes)
+function Ally:undoMovementNodes()
+  self.movement_nodes = {}
+  self.shadowx = self.x
+  self.shadowy = self.y
 end
 
 function Ally:shadowUpdate(dt)
@@ -39,9 +41,9 @@ function Ally:shadowUpdate(dt)
   end
 
   if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
-    self.rotation = self.rotation - dt * self.rotation_speed
+    self.rotation = self.rotation - dt * self.rotation_speed * 0.3
   elseif love.keyboard.isDown("d") or love.keyboard.isDown("right") then
-    self.rotation = self.rotation + dt * self.rotation_speed
+    self.rotation = self.rotation + dt * self.rotation_speed * 0.3
   end
 
   -- move self

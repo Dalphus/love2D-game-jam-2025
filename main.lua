@@ -48,7 +48,7 @@ function love.mousepressed( mouseX, mouseY, button )
   elseif button == 2 then
     if love.keyboard.isDown( "space" ) then
       if love.keyboard.isDown( "space" ) then
-        players[ active_player ]:undoMovementNode()
+        players[ active_player ]:undoMovementNodes()
       end
     end
   end

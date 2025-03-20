@@ -52,12 +52,15 @@ function Dummy:update( dt )
       self.speed = self.speed + self.acceleration * dt * 1.5
 
       if self.movement_nodes[2] then
-        while vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= (self.size * 1.1)  do
+        while vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= (self.size * 1.1)  do -- WHY DO YOU CRASH HERE WHEN THERE IS NOTHING IN THE MOVEMENT_NODES TABLE AAAAAAAAAAAAAAAAAAAAAAA
           table.remove(self.movement_nodes, 1)
         end
-      elseif self.movement_nodes[1] then
-        if vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) == (self.size * 0.1) then
-          table.remove(self.movement_nodes, 1)
+      elseif self.movement_nodes then
+        if vectorDist(self.x, self.y, self.shadowx, self.shadowy) <= (self.size * 0.01) then
+          self.speed = 0
+          self.movement_nodes = {}
+          self.x = self.shadowx
+          self.y = self.shadowy
         end
       end
     end
