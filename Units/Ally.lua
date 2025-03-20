@@ -14,6 +14,7 @@ function Ally:new(...)
   ally.movement_nodes = {}
   ally.shadowx = ally.x
   ally.shadowy = ally.y
+  ally.rate_limit_tally = 0
   setmetatable(ally, self)
   return ally
 end
@@ -52,8 +53,16 @@ function Ally:shadowUpdate(dt)
   self.shadowy = (self.shadowy + self.size) % (love.graphics.getHeight() + self.size * 2) - self.size
 
   -- add node
-  if speed then
-    self:addMovementNode(self.shadowx, self.shadowy)
+  if (speed > 0) and (vectorDist(self.x, self.y, self.shadowx, self.shadowy) > self.size) then
+    if self.rate_limit_tally == 0 then
+      self:addMovementNode(self.shadowx, self.shadowy)
+    elseif (self.rate_limit_tally == 60) then
+      self.rate_limit_tally = 0
+    else
+      self.rate_limit_tally = self.rate_limit_tally + 1
+    end
+  else 
+    self.rate_limit_tally = 0
   end
 end
 

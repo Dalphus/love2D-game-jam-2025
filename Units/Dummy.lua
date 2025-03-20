@@ -8,7 +8,7 @@ setmetatable(Dummy, Ally)
 
 function Dummy:new(...)
   local dummy = Ally:new(...)
-  dummy.rotation_speed = 5
+  dummy.rotation_speed = 10
   setmetatable(dummy, self)
   dummy.name = "Dummy"
   return dummy
@@ -51,8 +51,14 @@ function Dummy:update( dt )
       -- accelerates dummy forward
       self.speed = self.speed + self.acceleration * dt * 1.5
 
-      if vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= self.size then
-        table.remove(self.movement_nodes, 1)
+      if self.movement_nodes[2] then
+        while vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= (self.size * 1.1)  do
+          table.remove(self.movement_nodes, 1)
+        end
+      elseif self.movement_nodes[1] then
+        if vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) == (self.size * 0.1) then
+          table.remove(self.movement_nodes, 1)
+        end
       end
     end
 

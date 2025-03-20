@@ -113,8 +113,9 @@ function love.update( dt )
   -- update player
   for _, player in pairs( players ) do
     player:update( dt )
-    player:shadowUpdate( dt ) 
   end
+
+  players[ active_player ]:shadowUpdate( dt )  
 
   Camera:buttonCooling(dt)
 end
