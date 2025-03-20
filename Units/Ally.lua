@@ -20,7 +20,6 @@ function Ally:new(...)
 end
 
 function Ally:addMovementNode(_x, _y)
-  print(string.format("Adding movement node at %d, %d", _x, _y))
   table.insert(self.movement_nodes, Node:new(_x, _y))
 end
 

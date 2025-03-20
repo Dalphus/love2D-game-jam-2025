@@ -41,6 +41,7 @@ function Dummy:update( dt )
   if TurnEndFlag then
     if next(self.movement_nodes) then
       -- rotates Dummy to face movement node
+      print(#self.movement_nodes)
       local x1, y1 = self.x, self.y
       local x2, y2 = self.movement_nodes[ 1 ].x, self.movement_nodes[ 1 ].y
       local angle_diff = math.atan2(( y2 - y1 ), ( x2 - x1 )) - self.rotation
@@ -52,7 +53,7 @@ function Dummy:update( dt )
       self.speed = self.speed + self.acceleration * dt * 1.5
 
       if self.movement_nodes[2] then
-        while vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= (self.size * 1.1)  do -- WHY DO YOU CRASH HERE WHEN THERE IS NOTHING IN THE MOVEMENT_NODES TABLE AAAAAAAAAAAAAAAAAAAAAAA
+        while #self.movement_nodes > 0 and vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= (self.size * 1.1)  do
           table.remove(self.movement_nodes, 1)
         end
       elseif self.movement_nodes then
