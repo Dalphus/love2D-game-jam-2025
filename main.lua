@@ -102,7 +102,7 @@ function love.draw()
   love.graphics.setColor( 255, 255, 255 )
   love.graphics.rectangle( "line", Camera.x, Camera.y, scene.width * Camera.zoom, scene.height * Camera.zoom )
 
-  Camera:renderUI()  
+  Camera:renderUI()
 end
 
 function love.update( dt )
