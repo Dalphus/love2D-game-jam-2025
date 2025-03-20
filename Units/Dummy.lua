@@ -49,14 +49,15 @@ function Dummy:update( dt )
       self.rotation = self.rotation % ( 2 * math.pi )
 
       -- accelerates dummy forward
-      self.speed = self.speed + self.acceleration * dt * 1.5
+      self.speed = self.speed + self.acceleration * dt
 
       if vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= self.size then
         table.remove(self.movement_nodes, 1)
       end
+    else
+      self.speed = self.speed - 500 * dt
     end
 
-    self.speed = self.speed - self.acceleration * dt * 0.5
     self.speed = clamp( self.speed, 0, top_speed )
 
     -- move dummy
