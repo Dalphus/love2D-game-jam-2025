@@ -7,14 +7,13 @@ setmetatable(Ally, Unit)
 
 function Ally:new(...)
   local ally = Unit:new(...)
-  ally.top_speed = 200
-  ally.acceleration = 100
   ally.rotation_speed = 2
   ally.name = "Ally"
   ally.movement_nodes = {}
   ally.shadowx = ally.x
   ally.shadowy = ally.y
   ally.rate_limit_tally = 0
+  ally.time_budget = 100
   setmetatable(ally, self)
   return ally
 end
@@ -27,14 +26,20 @@ function Ally:undoMovementNodes()
   self.movement_nodes = {}
   self.shadowx = self.x
   self.shadowy = self.y
+  self.time_budget = 100
 end
 
 function Ally:shadowUpdate(dt)
+  if TurnEndFlag then return end
+  if self.time_budget <= 0 then
+    self.time_budget = 0
+    return
+  end
   local speed = 0
   
   -- update self
   if love.keyboard.isDown("w") or love.keyboard.isDown("up") then
-    speed = 100
+    speed = self.speed
   else
     speed = 0
   end
@@ -48,6 +53,7 @@ function Ally:shadowUpdate(dt)
   -- move self
   self.shadowx = self.shadowx + math.cos(self.rotation) * dt * speed
   self.shadowy = self.shadowy + math.sin(self.rotation) * dt * speed
+  if speed > 0 then self.time_budget = self.time_budget - (dt*100/TurnTime) end
   
   -- keep self on screen
   self.shadowx = (self.shadowx + self.size) % (love.graphics.getWidth() + self.size * 2) - self.size

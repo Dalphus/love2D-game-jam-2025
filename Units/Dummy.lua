@@ -11,6 +11,7 @@ function Dummy:new(...)
   dummy.rotation_speed = 10
   setmetatable(dummy, self)
   dummy.name = "Dummy"
+  dummy.speed = 200
   return dummy
 end
 
@@ -49,15 +50,12 @@ function Dummy:update( dt )
       self.rotation = self.rotation + dt * self.rotation_speed * sign( angle_diff )
       self.rotation = self.rotation % ( 2 * math.pi )
 
-      -- accelerates dummy forward
-      self.speed = self.speed + self.acceleration * dt * 1.5
-
       if self.movement_nodes[2] then
-        while #self.movement_nodes > 0 and vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= (self.size * 1.1)  do
+        while self.movement_nodes[2] and vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= (self.size * 1.1)  do
           table.remove(self.movement_nodes, 1)
         end
       elseif self.movement_nodes then
-        if vectorDist(self.x, self.y, self.shadowx, self.shadowy) <= (self.size * 0.01) then
+        if vectorDist(self.x, self.y, self.shadowx, self.shadowy) <= (self.size * 0.05) then
           self.speed = 0
           self.movement_nodes = {}
           self.x = self.shadowx
@@ -65,9 +63,6 @@ function Dummy:update( dt )
         end
       end
     end
-
-    self.speed = self.speed - self.acceleration * dt * 0.5
-    self.speed = clamp( self.speed, 0, top_speed )
 
     -- move dummy
     self.x = self.x + math.cos( self.rotation ) * dt * self.speed

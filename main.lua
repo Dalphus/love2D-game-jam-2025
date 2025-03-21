@@ -19,6 +19,7 @@ function love.load()
   -- Scene Globals
   scene = { width = 2000, height = 800 }
   TurnEndFlag = false
+  TurnTime = 3
 
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
@@ -46,8 +47,8 @@ function love.mousepressed( mouseX, mouseY, button )
       end
     end
   elseif button == 2 then
-    if love.keyboard.isDown( "space" ) then
-      if love.keyboard.isDown( "space" ) then
+    if love.keyboard.isDown( "space" ) then -- why?
+      if love.keyboard.isDown( "space" ) and TurnEndFlag then
         players[ active_player ]:undoMovementNodes()
       end
     end
@@ -91,10 +92,10 @@ function love.draw()
   love.graphics.setCanvas( canvas )
 
   -- draw players
-  for _, player in pairs( players ) do
+  for _, player in pairs( players ) do 
     player:draw()
-    player:shadowDraw()
   end
+  players[ active_player ]:shadowDraw()
 
   love.graphics.setColor(255, 255, 255)
   love.graphics.setCanvas()

@@ -20,8 +20,11 @@ turnEnd:setFunction(function() co = coroutine.create(function()
   turnEnd.heldAction = co
   TurnEndFlag = true
   local start = love.timer.getTime()
-  while (love.timer.getTime() - start) < 3 do
+  while (love.timer.getTime() - start) < TurnTime do
     coroutine.yield()
+  end
+  for _, player in pairs( players ) do
+    player:undoMovementNodes()
   end
   TurnEndFlag = false 
 end)
@@ -58,11 +61,13 @@ function drawUnitUI()
         y3 = window_height - COMMAND_HEIGHT
         x4 = window_width/2 + COMMAND_WIDTH
         y4 = window_height
-        love.graphics.setColor(0, 0, 255)
+        love.graphics.setColor(0, 0, 1)
         love.graphics.line(x1, y1, x2, y2, x3, y3, x4 ,y4)
         love.graphics.rectangle("fill", x2, y2, COMMAND_WIDTH * 2, COMMAND_HEIGHT/4)
         love.graphics.setColor(1, 1, 1)
         love.graphics.draw(unitLabel, x2 + 5, y2 + (COMMAND_HEIGHT/8) - (unitLabel:getHeight()/2))
+        love.graphics.setColor(0, 1, 0)
+        love.graphics.rectangle("fill", x2, y2 - (COMMAND_HEIGHT/4), COMMAND_WIDTH * 2 * (players[UI_unit].time_budget/100), COMMAND_HEIGHT/4)
     end
 end
 
