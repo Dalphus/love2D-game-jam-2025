@@ -9,10 +9,6 @@ function LevelLoader:draw()
 end
 
 function LevelLoader:setCurrentLevel(setLevel)
-  players = {
-    ["Francis"] = Dummy:new( 400, 200, 30 ),
-    ["Geraldo"] = Dummy:new( 100, 100, 50 )
-  }
   currentLevel = setLevel
   setLevel:load()
 end

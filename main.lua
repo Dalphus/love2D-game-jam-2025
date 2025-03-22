@@ -9,7 +9,8 @@ require( "Units.Stinky" )
 require( "Camera" )
 require( "Scenes.LevelLoader" )
 require( "Scenes.SceneOne" )
-
+require( "Scenes.Scene" )
+require( "Walls" )
 
 function love.load()
   -- Unit Globals
@@ -19,9 +20,7 @@ function love.load()
   acceleration = 100
 
   -- Scene Globals
-  scene = { width = 4096, height = 2160 }
   TurnEndFlag = false
-  game_canvas = love.graphics.newCanvas( scene.width, scene.height )
 
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })

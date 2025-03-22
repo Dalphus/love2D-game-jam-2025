@@ -11,10 +11,12 @@ function SceneOne:new()
 end
 
 function SceneOne:load()
-  BackgroundZero = love.graphics.newImage( "Assets/Backgrounds/Bad.png")
+  players = {
+    ["Francis"] = Dummy:new( 400, 200, 30 ),
+    ["Geraldo"] = Dummy:new( 100, 100, 50 )
+  }
 end
 
 function SceneOne:draw()
-  love.graphics.setColor(255, 255, 255)
-  love.graphics.draw(BackgroundZero, 0, 0)
+  love.graphics.setColor(1, 1, 1)
 end

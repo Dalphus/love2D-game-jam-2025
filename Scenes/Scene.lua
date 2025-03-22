@@ -3,6 +3,7 @@
 -- iterate through matrix and update distance from wall field
 -- generat canvas with wall data
 
+
 Scene = {}
 
 function Scene:load()
@@ -54,7 +55,6 @@ function Scene:load()
   self.width = self.width * 50
   self.height = self.height * 50
 end
-Scene = {}
 
 function Scene:new()
   local scene = {}
