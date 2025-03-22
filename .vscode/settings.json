@@ -6,5 +6,7 @@
     ],
     "[lua]": {
         "editor.tabSize": 2,
-    }
+        
+    },
+
 }

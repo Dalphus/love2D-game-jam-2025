@@ -4,7 +4,15 @@ require("UI.Button")
 COMMAND_WIDTH = 300
 COMMAND_HEIGHT = 100
 
-Camera = {x = 100, y = 100, zoom = 1, min_zoom = 0.4, max_zoom = 2, UI_unit = nil}
+Camera = {
+  x = 100,
+  y = 100,
+  zoom = 1,
+  min_zoom = 0.4,
+  max_zoom = 2,
+  UI_unit = nil,
+  margin = 150
+}
 
 local button_width = 100
 local button_height = 50

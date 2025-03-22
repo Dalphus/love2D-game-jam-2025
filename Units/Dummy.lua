@@ -63,7 +63,7 @@ function Dummy:update( dt )
       self.speed = self.speed - 500 * dt
     end
 
-    self.speed = clamp( self.speed, 0, top_speed )
+    self.speed = clamp( self.speed, 0, self.top_speed )
 
     -- move dummy
     self.x = self.x + math.cos( self.rotation ) * dt * self.speed

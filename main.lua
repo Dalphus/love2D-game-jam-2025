@@ -8,6 +8,7 @@ require( "Units.Dummy" )
 require( "Units.Stinky" )
 require( "Camera" )
 require( "Walls" )
+require( "Scenes.Scene" )
 
 function love.load()
   -- Unit Globals
@@ -17,16 +18,15 @@ function love.load()
   }
   active_player = "Francis"
 
-  -- Scene Globals
-  scene = { width = 2000, height = 800 }
-  scene.walls = temporaryWallInserter()
-  TurnEndFlag = false
-
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
   love.graphics.setBackgroundColor( 0, 0, 0 )
 
   love.mouse.setVisible(true)
+
+  -- Scene Globals
+  Scene:load()
+  TurnEndFlag = false
 
   -- set default font
   love.graphics.setFont(love.graphics.newFont(50))
@@ -58,19 +58,19 @@ function love.mousepressed( mouseX, mouseY, button )
 end
 
 function love.mousemoved( mouseX, mouseY, dx, dy, force )
-  local total_width = scene.width * Camera.zoom
-  local total_height = scene.height * Camera.zoom
+  local total_width = Scene.width * Camera.zoom
+  local total_height = Scene.height * Camera.zoom
 
   if love.mouse.isDown( 2 ) or force then
-    if love.graphics.getWidth() - total_width - 100 < 0 then
-      Camera.x = clamp( Camera.x + dx, love.graphics.getWidth() - total_width - 50, 50 )
+    if love.graphics.getWidth() - total_width - Camera.margin * 2 < 0 then
+      Camera.x = clamp( Camera.x + dx, love.graphics.getWidth() - total_width - Camera.margin, Camera.margin )
     else
-      Camera.x = clamp( Camera.x + dx, 50, love.graphics.getWidth() - total_width - 50 )
+      Camera.x = clamp( Camera.x + dx, Camera.margin, love.graphics.getWidth() - total_width - Camera.margin )
     end
-    if love.graphics.getHeight() - total_height - 100 < 0 then
-      Camera.y = clamp( Camera.y + dy, love.graphics.getHeight() - total_height - 50, 50 )
+    if love.graphics.getHeight() - total_height - Camera.margin * 2 < 0 then
+      Camera.y = clamp( Camera.y + dy, love.graphics.getHeight() - total_height - Camera.margin, Camera.margin )
     else
-      Camera.y = clamp( Camera.y + dy, 50, love.graphics.getHeight() - total_height - 50 )
+      Camera.y = clamp( Camera.y + dy, Camera.margin, love.graphics.getHeight() - total_height - Camera.margin )
     end
   end
 end
@@ -89,7 +89,7 @@ function love.wheelmoved( x, y )
 end
 
 function love.draw()
-  local canvas = love.graphics.newCanvas( scene.width, scene.height )
+  local canvas = love.graphics.newCanvas( Scene.width, Scene.height, { format = "rgba8" } )
   love.graphics.setCanvas( canvas )
 
   -- draw players
@@ -97,10 +97,10 @@ function love.draw()
     player:draw()
   end
 
-  -- draw walls
-  for _, wall in ipairs( scene.walls ) do
-    wall:draw()
-  end
+  -- -- draw walls
+  -- for _, wall in ipairs( Scene.walls ) do
+  --   wall:draw()
+  -- end
 
   -- movement preview
   if love.keyboard.isDown( "space" ) then
@@ -115,13 +115,13 @@ function love.draw()
     love.graphics.line( x1, y1, x2, y2 )
   end
 
-  love.graphics.setColor( 1, 1, 1 )
   love.graphics.setCanvas()
-  love.graphics.draw( canvas, Camera.x, Camera.y, 0, Camera.zoom, Camera.zoom )
   love.graphics.setColor( 1, 1, 1 )
-  love.graphics.rectangle( "line", Camera.x, Camera.y, scene.width * Camera.zoom, scene.height * Camera.zoom )
-
-  Camera:renderUI()
+  local cam_transform = love.math.newTransform( Camera.x, Camera.y, 0, Camera.zoom, Camera.zoom )
+  love.graphics.draw( Scene.background, cam_transform )
+  love.graphics.draw( canvas, cam_transform )
+  love.graphics.rectangle( "line", Camera.x, Camera.y, Scene.width * Camera.zoom, Scene.height * Camera.zoom )
+  Camera:renderUI()  
 end
 
 function love.update( dt )

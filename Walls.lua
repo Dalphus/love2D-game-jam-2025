@@ -13,7 +13,7 @@ function Wall:new( _x, _y, _width, _height )
 end
 
 function Wall:draw()
-  love.graphics.setColor( 1, 1, 1 )
+  love.graphics.setColor( 1, 1, 1, .5 )
   love.graphics.rectangle( "fill", self.x, self.y, self.width, self.height )
 end
 
@@ -29,14 +29,14 @@ function Wall:collides( x1, y1, x2, y2, radius )
 end
 
 function temporaryWallInserter()
-  -- Scene1 is 2000x800
+  -- Multiply values by 50 to get pixel count
   local walls = {
-    --------- x     y    width  height
-    Wall:new( 250,  350, 50,    320 ),
-    Wall:new( 600,  5,   50,    160 ),
-    Wall:new( 600,  300, 900,   50 ),
-    Wall:new( 500,  490, 200,   50 ),
-    Wall:new( 1700, 150, 50,    500 ),
+    --------- x    y    w    h
+    Wall:new( 5,   7,   1,   6 ),
+    Wall:new( 12,  1,   10,  3 ),
+    Wall:new( 12,  6,   18,  1 ),
+    Wall:new( 10,  10,  4,   1 ),
+    Wall:new( 34,  3,   1,   10 ),
   }
 
   return walls

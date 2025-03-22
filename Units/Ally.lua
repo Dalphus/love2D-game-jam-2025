@@ -7,8 +7,8 @@ setmetatable(Ally, Unit)
 
 function Ally:new(...)
   local ally = Unit:new(...)
-  ally.top_speed = 200
-  ally.acceleration = 100
+  ally.top_speed = 180
+  ally.acceleration = 200
   ally.rotation_speed = 2
   ally.name = "Ally"
   ally.movement_nodes = {}
@@ -25,8 +25,8 @@ function Ally:addMovementNode(_x, _y)
 end
 
 function Ally:isValidMovementNode( x1, y1 )
-  for _, wall in ipairs( scene.walls ) do
-    local x2, y2 = self:getLastNodePos()
+  local x2, y2 = self:getLastNodePos()
+  for _, wall in ipairs( Scene.walls ) do
     if wall:collides( x1, y1, x2, y2, self.size ) then
       return false
     end
