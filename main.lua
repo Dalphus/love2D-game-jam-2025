@@ -21,6 +21,7 @@ function love.load()
   scene = { width = 2000, height = 800 }
   scene.walls = temporaryWallInserter()
   TurnEndFlag = false
+  TurnTime = 4
 
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
@@ -48,9 +49,9 @@ function love.mousepressed( mouseX, mouseY, button )
       end
     end
   elseif button == 2 then
-    if love.keyboard.isDown( "space" ) then
-      if love.keyboard.isDown( "space" ) then
-        players[ active_player ]:undoMovementNode()
+    if love.keyboard.isDown( "space" ) then -- why?
+      if love.keyboard.isDown( "space" ) and TurnEndFlag then
+        players[ active_player ]:undoMovementNodes()
       end
     end
   end
@@ -94,9 +95,10 @@ function love.draw()
   love.graphics.setCanvas( canvas )
 
   -- draw players
-  for _, player in pairs( players ) do
+  for _, player in pairs( players ) do 
     player:draw()
   end
+  players[ active_player ]:shadowDraw()
 
   -- draw walls
   for _, wall in ipairs( scene.walls ) do
@@ -134,6 +136,8 @@ function love.update( dt )
   for _, player in pairs( players ) do
     player:update( dt )
   end
+
+  players[ active_player ]:shadowUpdate( dt )  
 
   Camera:buttonCooling(dt)
 end
