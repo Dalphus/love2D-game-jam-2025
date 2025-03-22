@@ -27,12 +27,17 @@ function Dummy:draw()
   love.graphics.line(self.x, self.y, self.x + x2, self.y + y2)
 
   if next(self.movement_nodes) then
-    love.graphics.setColor( 255, 0, 0 )
+    love.graphics.setColor( 1, 1, 1 )
     love.graphics.line(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y)
     for i = 1, #self.movement_nodes - 1 do
       local x1, y1 = self.movement_nodes[i].x, self.movement_nodes[i].y
       local x2, y2 = self.movement_nodes[i + 1].x, self.movement_nodes[i + 1].y
       love.graphics.line(x1, y1, x2, y2)
+    end
+    if not love.keyboard.isDown("space") then
+      love.graphics.setColor( 1, 1, 1 )
+      local x, y = self.movement_nodes[ #self.movement_nodes ].x, self.movement_nodes[ #self.movement_nodes ].y
+      love.graphics.circle("line", x, y, self.size, 50)
     end
   end
 end

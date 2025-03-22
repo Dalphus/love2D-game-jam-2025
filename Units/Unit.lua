@@ -1,5 +1,5 @@
 Unit = {}
--- Unit.__index = Unit
+Unit.__index = Unit
 
 function Unit:new(_x, _y, _size, _rotation, _speed)
   local unit = {
@@ -10,5 +10,10 @@ function Unit:new(_x, _y, _size, _rotation, _speed)
     ["speed"]    = _speed    or 0,
     ["name"]     = "Unit"
   }
+  setmetatable(unit, self)
   return unit
+end
+
+function Unit:getPosition()
+  return self.x, self.y
 end

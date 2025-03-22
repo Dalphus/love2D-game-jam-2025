@@ -19,6 +19,7 @@ function love.load()
 
   -- Scene Globals
   scene = { width = 2000, height = 800 }
+  scene.walls = temporaryWallInserter()
   TurnEndFlag = false
 
   -- set up the window
@@ -31,8 +32,6 @@ function love.load()
   -- set default font
   love.graphics.setFont(love.graphics.newFont(50))
 
-  -- Wall Stuff
-  Walls:load()
 end
 
 function love.mousepressed( mouseX, mouseY, button )
@@ -99,12 +98,28 @@ function love.draw()
     player:draw()
   end
 
-  Walls:draw()
+  -- draw walls
+  for _, wall in ipairs( scene.walls ) do
+    wall:draw()
+  end
 
-  love.graphics.setColor(255, 255, 255)
+  -- movement preview
+  if love.keyboard.isDown( "space" ) then
+    local x1, y1 = getRelativeCursor()
+    local x2, y2 = players[ active_player ]:getLastNodePos()
+    if players[ active_player ]:isValidMovementNode( x1, y1 ) then
+      love.graphics.setColor( 1, 0, 0 )
+    else
+      love.graphics.setColor( 1, 1, 1 )
+    end
+    love.graphics.circle( "line", x1, y1, players[ active_player ].size, 50 )
+    love.graphics.line( x1, y1, x2, y2 )
+  end
+
+  love.graphics.setColor( 1, 1, 1 )
   love.graphics.setCanvas()
   love.graphics.draw( canvas, Camera.x, Camera.y, 0, Camera.zoom, Camera.zoom )
-  love.graphics.setColor( 255, 255, 255 )
+  love.graphics.setColor( 1, 1, 1 )
   love.graphics.rectangle( "line", Camera.x, Camera.y, scene.width * Camera.zoom, scene.height * Camera.zoom )
 
   Camera:renderUI()
