@@ -55,8 +55,7 @@ function love.mousepressed( mouseX, mouseY, button )
     end
   elseif button == 2 then
     if love.keyboard.isDown( "space" ) and TurnEndFlag then
-        players[ active_player ]:undoMovementNodes()
-      end
+      players[ active_player ]:undoMovementNodes()
     end
   end
 
