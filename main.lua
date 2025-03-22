@@ -27,6 +27,7 @@ function love.load()
   -- Scene Globals
   Scene:load()
   TurnEndFlag = false
+  TurnTime = 4
 
   -- set default font
   love.graphics.setFont(love.graphics.newFont(50))
@@ -47,9 +48,9 @@ function love.mousepressed( mouseX, mouseY, button )
       end
     end
   elseif button == 2 then
-    if love.keyboard.isDown( "space" ) then
-      if love.keyboard.isDown( "space" ) then
-        players[ active_player ]:undoMovementNode()
+    if love.keyboard.isDown( "space" ) then -- why?
+      if love.keyboard.isDown( "space" ) and TurnEndFlag then
+        players[ active_player ]:undoMovementNodes()
       end
     end
   end
@@ -93,9 +94,10 @@ function love.draw()
   love.graphics.setCanvas( canvas )
 
   -- draw players
-  for _, player in pairs( players ) do
+  for _, player in pairs( players ) do 
     player:draw()
   end
+  players[ active_player ]:shadowDraw()
 
   -- -- draw walls
   -- for _, wall in ipairs( Scene.walls ) do
@@ -133,6 +135,8 @@ function love.update( dt )
   for _, player in pairs( players ) do
     player:update( dt )
   end
+
+  players[ active_player ]:shadowUpdate( dt )  
 
   Camera:buttonCooling(dt)
 end
