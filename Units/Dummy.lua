@@ -9,6 +9,8 @@ setmetatable(Dummy, Ally)
 function Dummy:new(...)
   local dummy = Ally:new(...)
   dummy.rotation_speed = 10
+  dummy.AbilityA = "Charge"
+  dummy.AbilityB = "Stun"
   setmetatable(dummy, self)
   dummy.name = "Dummy"
   dummy.speed = 200

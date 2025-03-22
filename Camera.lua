@@ -68,6 +68,18 @@ function drawUnitUI()
         love.graphics.draw(unitLabel, x2 + 5, y2 + (COMMAND_HEIGHT/8) - (unitLabel:getHeight()/2))
         love.graphics.setColor(0, 1, 0)
         love.graphics.rectangle("fill", x2, y2 - (COMMAND_HEIGHT/4), COMMAND_WIDTH * 2 * (players[UI_unit].time_budget/100), COMMAND_HEIGHT/4)
+        if players[UI_unit].AbilityA then
+          AbilityAButton = Button:new(x2 + 10, y2 + (COMMAND_HEIGHT/4) + 5 , COMMAND_WIDTH - 15, COMMAND_HEIGHT*.75 - 10, "TLEFT")
+          AbilityAButton:setText(players[UI_unit].AbilityA)
+          AbilityAButton:setColor(0, 0, 1)
+          if players[UI_unit].AbilityB then
+            AbilityBButton = Button:new(x2 + COMMAND_WIDTH + 5, y2 + (COMMAND_HEIGHT/4) + 5 , COMMAND_WIDTH - 15, COMMAND_HEIGHT*.75 - 10, "TLEFT")
+            AbilityBButton:setText(players[UI_unit].AbilityB)
+            AbilityBButton:setColor(0, 0, 1)
+            AbilityBButton:draw()
+          end
+          AbilityAButton:draw()
+        end
     end
 end
 
