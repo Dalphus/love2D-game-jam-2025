@@ -16,9 +16,9 @@ end
 
 function Dummy:draw()
   if mouseInRadius(self, self.size) then
-    love.graphics.setColor(255, 0, 0)
+    love.graphics.setColor( 1, 0, 0 )
   else
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setColor( 1, 1, 1 )
   end
   love.graphics.circle("fill", self.x, self.y, self.size, 50)
   local x2 = math.cos(self.rotation) * self.size

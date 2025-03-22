@@ -25,7 +25,6 @@ function love.load()
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
   love.graphics.setBackgroundColor( 0, 0, 0 )
-  love.graphics.setColor( 255, 255, 255 )
 
   love.mouse.setVisible(true)
 
@@ -108,9 +107,9 @@ function love.draw()
     local x1, y1 = getRelativeCursor()
     local x2, y2 = players[ active_player ]:getLastNodePos()
     if players[ active_player ]:isValidMovementNode( x1, y1 ) then
-      love.graphics.setColor( 1, 0, 0 )
-    else
       love.graphics.setColor( 1, 1, 1 )
+    else
+      love.graphics.setColor( 1, 0, 0 )
     end
     love.graphics.circle( "line", x1, y1, players[ active_player ].size, 50 )
     love.graphics.line( x1, y1, x2, y2 )
