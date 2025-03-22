@@ -40,9 +40,8 @@ end
 
 function Dummy:update( dt )
   if TurnEndFlag then
-    if next(self.movement_nodes) then
+    if self.movement_nodes[1] then
       -- rotates Dummy to face movement node
-      print(#self.movement_nodes)
       local x1, y1 = self.x, self.y
       local x2, y2 = self.movement_nodes[ 1 ].x, self.movement_nodes[ 1 ].y
       local angle_diff = math.atan2(( y2 - y1 ), ( x2 - x1 )) - self.rotation
@@ -54,18 +53,18 @@ function Dummy:update( dt )
         while self.movement_nodes[2] and vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= (self.size * 1.1)  do
           table.remove(self.movement_nodes, 1)
         end
-      elseif self.movement_nodes then
+      else
         if vectorDist(self.x, self.y, self.shadowx, self.shadowy) <= (self.size * 0.05) then
-          self.speed = 0
           self.movement_nodes = {}
-          self.x = self.shadowx
-          self.y = self.shadowy
         end
       end
-    end
 
-    -- move dummy
-    self.x = self.x + math.cos( self.rotation ) * dt * self.speed
-    self.y = self.y + math.sin( self.rotation ) * dt * self.speed
+      -- move dummy
+      self.x = self.x + math.cos( self.rotation ) * dt * self.speed
+      self.y = self.y + math.sin( self.rotation ) * dt * self.speed
+    else 
+      self.x = self.shadowx
+      self.y = self.shadowy
+    end
   end
 end
