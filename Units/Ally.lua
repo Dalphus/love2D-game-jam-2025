@@ -27,7 +27,7 @@ end
 function Ally:isValidMovementNode( x1, y1 )
   for _, wall in ipairs( scene.walls ) do
     local x2, y2 = self:getLastNodePos()
-    if wall:collides( x1, y1, x2, y2 ) then
+    if wall:collides( x1, y1, x2, y2, self.size ) then
       return false
     end
   end
