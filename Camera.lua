@@ -30,6 +30,8 @@ turnEnd:setFunction(function() co = coroutine.create(function()
 end)
 coroutine.resume(co)
 end, true)
+local AbilityAButton = nil
+local AbilityBButton = nil
 
 function Camera:grabUIofUnit(unit)
   UI_unit = unit
@@ -43,6 +45,8 @@ end
 
 function Camera:buttonEvents()
   Button.mouseEvent(turnEnd)
+  if AbilityAButton then Button.mouseEvent(AbilityAButton) end
+  if AbilityBButton then Button.mouseEvent(AbilityBButton) end
 end
 
 function Camera:buttonCooling(dt)
@@ -71,6 +75,7 @@ function drawUnitUI()
         if players[UI_unit].AbilityA then
           AbilityAButton = Button:new(x2 + 10, y2 + (COMMAND_HEIGHT/4) + 5 , COMMAND_WIDTH - 15, COMMAND_HEIGHT*.75 - 10, "TLEFT")
           AbilityAButton:setText(players[UI_unit].AbilityA)
+          AbilityAButton:setFunction(function () players[UI_unit]:AbilityAFunction() end, false)
           AbilityAButton:setColor(0, 0, 1)
           if players[UI_unit].AbilityB then
             AbilityBButton = Button:new(x2 + COMMAND_WIDTH + 5, y2 + (COMMAND_HEIGHT/4) + 5 , COMMAND_WIDTH - 15, COMMAND_HEIGHT*.75 - 10, "TLEFT")

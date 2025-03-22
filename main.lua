@@ -19,7 +19,7 @@ function love.load()
   -- Scene Globals
   scene = { width = 2000, height = 800 }
   TurnEndFlag = false
-  TurnTime = 3
+  TurnTime = 4
 
   -- set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
