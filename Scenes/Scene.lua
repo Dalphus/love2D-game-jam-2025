@@ -3,6 +3,7 @@
 -- iterate through matrix and update distance from wall field
 -- generat canvas with wall data
 
+
 Scene = {}
 
 function Scene:load()
@@ -53,4 +54,18 @@ function Scene:load()
   self.background:newImageData():encode("png", "background.png")
   self.width = self.width * 50
   self.height = self.height * 50
+end
+
+function Scene:new()
+  local scene = {}
+  setmetatable(scene, self)
+  return scene
+end
+
+-- function Scene:load()
+--   print("Called abstract function")
+-- end
+
+function Scene:draw()
+  print("Called abstract function")
 end
