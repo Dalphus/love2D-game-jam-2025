@@ -24,6 +24,10 @@ function love.load()
     Patrol:new(600, 600, 15, -math.pi/2, 0, 3, math.pi/2, 300)
   }
   
+  -- Set up the window
+  love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
+  love.graphics.setBackgroundColor( 0, 0, 0 )
+
   -- Scene Globals
   Scene = Loader:addScene( LevelOne, "LevelOne" )
 
@@ -32,10 +36,6 @@ function love.load()
   enemies[2]:addMovementNode(600, 700)
   enemies[2]:addMovementNode(700, 700)
   enemies[2]:addMovementNode(700, 600)
-
-  -- Set up the window
-  love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
-  love.graphics.setBackgroundColor( 0, 0, 0 )
   
   love.mouse.setVisible(true)
 
