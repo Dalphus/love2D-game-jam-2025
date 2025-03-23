@@ -2,8 +2,8 @@ Loader = {
   scenes = {},
 
   -- there's probably a better place to put the spritesheet, but it lives here for now
-  tiles = {
-    wall1 = love.graphics.newImage( "Assets/wall1.png" ),
+  images = {
+    wall1   = love.graphics.newImage( "Assets/wall1.png"  ),
     blanck1 = love.graphics.newImage( "Assets/blank1.png" )
   }
 }
@@ -57,9 +57,9 @@ function Loader:load( id )
     for i = 1, scene.width do
       for j = 1, scene.height do
         if tile_map[i][j] == -1 then
-          love.graphics.draw( self.tiles.wall1, (i - 1) * 50, (j - 1) * 50, 0, .5, 0.5 )
+          love.graphics.draw( self.images.wall1, (i - 1) * 50, (j - 1) * 50, 0, .5, 0.5 )
         else
-          love.graphics.draw( self.tiles.blanck1, (i - 1) * 50 , (j - 1) * 50, 0, .5, 0.5 )
+          love.graphics.draw( self.images.blanck1, (i - 1) * 50 , (j - 1) * 50, 0, .5, 0.5 )
         end
       end
     end
