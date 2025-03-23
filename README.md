@@ -42,12 +42,6 @@ Turns
 Unit selection
  > path planning
 
-new unit type to implement particles
-Stinky
- - medium sized "stink" with varied color pallete
- - Large slow moving bubbles
-  - burst into small very fast yellow bubbles on death
-
 
 Ideas
  - background art is made up of tiles
@@ -56,3 +50,18 @@ Ideas
  - gibs get pushed around when units walk through them
  - violent squish trap
   - loud jumpscare
+
+TODO
+- replace circle with appropriate sprite
+- remove a/d steering
+ - replace with mouse based steering
+ - hold mouse 1 or space to start moving ghost
+- add inertia and impulse
+- make velocity a vector
+ - accelerating in a direction adds impulse to this vector
+- smooth rotation
+ - doesn't have to be done with vectors
+ - bezier or spline curve?
+ - make rotation take a small amount of energy
+- add time-based holograms to give a better scale of time taken
+- movement doesn't have to be deterministic, just good enough
