@@ -14,6 +14,12 @@ require( "Walls" )
 require( "Scenes.LevelData" )
 
 function love.load()
+  -- Set up the window
+  love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
+  love.graphics.setBackgroundColor( 0, 0, 0 )
+  
+  love.mouse.setVisible(true)
+
   -- Unit Globals
   players = {}
   players[ "Francis" ] = Dummy:new( 400, 200, 30 )
