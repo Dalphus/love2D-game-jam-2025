@@ -42,12 +42,6 @@ Turns
 Unit selection
  > path planning
 
-new unit type to implement particles
-Stinky
- - medium sized "stink" with varied color pallete
- - Large slow moving bubbles
-  - burst into small very fast yellow bubbles on death
-
 
 Ideas
  - background art is made up of tiles

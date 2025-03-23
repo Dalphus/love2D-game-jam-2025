@@ -8,36 +8,31 @@ require( "Units.Dummy" )
 require( "Units.Stinky" )
 require( "Camera" )
 require( "Scenes.LevelLoader" )
-require( "Scenes.SceneOne" )
-require( "Scenes.Scene" )
 require( "Walls" )
+require( "Scenes.LevelData" )
 
 function love.load()
   -- Unit Globals
   players = {}
+  players[ "Francis" ] = Dummy:new( 400, 200, 30 )
+  players[ "Geraldo" ] = Stinky:new( 100, 100, 50 )
   active_player = "Francis"
-  top_speed = 200
-  acceleration = 100
 
-  -- Scene Globals
-  TurnEndFlag = false
-
-  -- set up the window
+  -- Set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
   love.graphics.setBackgroundColor( 0, 0, 0 )
-
+  
   love.mouse.setVisible(true)
-
+  
   -- Scene Globals
-  Scene:load()
+  Scene = Loader:addScene( LevelOne, "LevelOne" )
+
   TurnEndFlag = false
   TurnTime = 4
 
   -- set default font
   love.graphics.setFont(love.graphics.newFont(50))
 
-  -- switch to tile screen eventually
-  LevelLoader:setCurrentLevel(SceneOne:new())
 end
 
 function love.mousepressed( mouseX, mouseY, button )
