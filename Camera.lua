@@ -93,6 +93,10 @@ function drawUnitUI()
         end
         AbilityAButton:draw()
       end
+      if players[UI_unit].portrait then
+        local portrait_transform = love.math.newTransform(0, window_height-200, 0, 200/500, 200/500)
+        love.graphics.draw(players[UI_unit].portrait, portrait_transform)
+      end
   end
 end
 

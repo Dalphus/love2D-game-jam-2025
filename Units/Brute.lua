@@ -19,6 +19,7 @@ function Brute:new(...)
   brute.AbilityATime = 0
   brute.AbilityB = "Stun"
   brute.AbilityBIndex = 0
+  brute.portrait = Loader.images.portraits.tank
   setmetatable(brute, self)
   brute.name = "Brute"
   brute.speed = 200
