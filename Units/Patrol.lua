@@ -11,7 +11,6 @@ function Patrol:new(_x, _y, _size, _rotation, _speed, _health, _fov, _sight_dist
   local patrol = Enemy:new(_x, _y, _size, _rotation, _speed, _health, _fov, _sight_dist)
   patrol.target_point = 1
   patrol.speed = 100
-  patrol.locked_in = nil
   patrol.reload = 0
   patrol.bullets = {}
   setmetatable(patrol, self)

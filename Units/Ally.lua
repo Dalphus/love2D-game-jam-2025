@@ -59,6 +59,7 @@ function Ally:shadowUpdate(dt)
   if (speed > 0) and (vectorDist(self.x, self.y, self.shadowx, self.shadowy) > self.size) then
     if self.rate_limit_tally == 0 then
       self:addMovementNode(self.shadowx, self.shadowy)
+      self.rate_limit_tally = self.rate_limit_tally + 1
     elseif (self.rate_limit_tally == 60) then
       self.rate_limit_tally = 0
     else
