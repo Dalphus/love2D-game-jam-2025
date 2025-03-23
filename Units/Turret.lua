@@ -4,8 +4,8 @@ Turret = {}
 Turret.__index = Turret
 setmetatable(Turret, Enemy)
 
-function Turret:new(_x, _y, _size, _rotation, _speed, _fov, _sight_dist)
-  local turret = Enemy:new(_x, _y, _size, _rotation, _speed, _fov, _sight_dist)
+function Turret:new(_x, _y, _size, _rotation, _speed, _health, _fov, _sight_dist)
+  local turret = Enemy:new(_x, _y, _size, _rotation, _speed, _health, _fov, _sight_dist)
   setmetatable(turret, self)
   return turret
 end

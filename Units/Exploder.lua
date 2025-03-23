@@ -1,38 +1,25 @@
 require("Units.Enemy")
-require("Units.Bullet")
 
-Patrol = {}
-Patrol.__index = Patrol
-setmetatable(Patrol, Enemy)
+Exploder = {}
+Exploder.__index = Exploder
+setmetatable(Exploder, Enemy)
 
-local RELOAD_TIMER = 0.7
-
-function Patrol:new(_x, _y, _size, _rotation, _speed, _health, _fov, _sight_dist)
-  local patrol = Enemy:new(_x, _y, _size, _rotation, _speed, _health, _fov, _sight_dist)
-  patrol.target_point = 1
-  patrol.speed = 100
-  patrol.locked_in = nil
-  patrol.reload = 0
-  patrol.bullets = {}
-  setmetatable(patrol, self)
-  return patrol
+function Exploder:new(_x, _y, _size, _rotation, _speed, _health, _fov, _sight_dist)
+  local exploder = Enemy:new(_x, _y, _size, _rotation, _speed, _health, _fov, _sight_dist)
+  exploder.target_point = 1
+  exploder.speed = 100
+  exploder.locked_in = nil
+  setmetatable(exploder, self)
+  return exploder
 end
 
-function Patrol:update(dt)
+function Exploder:update(dt)
   if not TurnEndFlag then return end
-  for _, bullet in pairs( self.bullets ) do
-    bullet:update(dt)
-  end
   if self.locked_in then
-    if vectorDist(self.x, self.y, self.locked_in.x, self.locked_in.y) < (0.6 * self.sight_dist) then
-      self:face(self.locked_in.x, self.locked_in.y, dt)
-      self:shoot(dt)
-    else
-      self:face(self.locked_in.x, self.locked_in.y, dt)
-      -- move dummy
-      self.x = self.x + math.cos( self.rotation ) * dt * self.speed
-      self.y = self.y + math.sin( self.rotation ) * dt * self.speed
-    end
+    self:face(self.locked_in.x, self.locked_in.y, dt)
+    -- move dummy
+    self.x = self.x + math.cos( self.rotation ) * dt * self.speed
+    self.y = self.y + math.sin( self.rotation ) * dt * self.speed
   else
     self:face(self.movement_nodes[self.target_point].x, self.movement_nodes[self.target_point].y, dt)
     -- move dummy
@@ -60,10 +47,7 @@ function Patrol:update(dt)
   end
 end
 
-function Patrol:draw()
-  for _, bullet in pairs( self.bullets ) do
-    bullet:draw()
-  end
+function Exploder:draw()
   love.graphics.setColor(1, 0, 0)
   love.graphics.circle("fill", self.x, self.y, self.size, 50)
   local x2 = math.cos(self.rotation) * self.size
@@ -87,13 +71,4 @@ function Patrol:draw()
     love.graphics.line(x5, y5, x6, y6)
   end
   love.graphics.line(self.movement_nodes[self.target_point].x, self.movement_nodes[self.target_point].y, self.x, self.y)
-end
-
-function Patrol:shoot(dt)
-  if self.reload <= 0 then
-    table.insert(self.bullets, Bullet:new(self.x, self.y, 5, 100, self.rotation))
-    self.reload = RELOAD_TIMER
-  else
-    self.reload = self.reload - dt
-  end
 end

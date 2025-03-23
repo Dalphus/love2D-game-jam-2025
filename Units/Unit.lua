@@ -1,15 +1,16 @@
 Unit = {}
 Unit.__index = Unit
 
-function Unit:new(_x, _y, _size, _rotation, _speed)
+function Unit:new(_x, _y, _size, _rotation, _speed, _health)
   local unit = {
     ["x"]        = _x        or 100,
     ["y"]        = _y        or 100,
     ["size"]     = _size     or 50,
     ["rotation"] = _rotation or 0,
     ["speed"]    = _speed    or 0,
+    ["health"]   = _health   or 3,
     ["name"]     = "Unit",
-    ["movement_nodes"] = {}
+    ["movement_nodes"] = {},
   }
   setmetatable(unit, self)
   return unit
