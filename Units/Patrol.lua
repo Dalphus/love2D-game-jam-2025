@@ -28,12 +28,13 @@ function Patrol:update(dt)
   for _, bullet in pairs( self.bullets ) do 
     bullet:update(dt)
   end
-  if self.locked_in then
-    if vectorDist(self.x, self.y, self.locked_in.x, self.locked_in.y) < (0.6 * self.sight_dist) then
-      self:face(self.locked_in.x, self.locked_in.y, dt)
+  if players[self.locked_in] then
+    local target = players[self.locked_in]
+    if vectorDist(self.x, self.y, target.x, target.y) < (0.6 * self.sight_dist) then
+      self:face(target.x, target.y, dt)
       self:shoot(dt)
     else
-      self:face(self.locked_in.x, self.locked_in.y, dt)
+      self:face(target.x, target.y, dt)
       -- move dummy
       self.x = self.x + math.cos( self.rotation ) * dt * self.speed
       self.y = self.y + math.sin( self.rotation ) * dt * self.speed
@@ -52,11 +53,11 @@ function Patrol:update(dt)
     end
     local closest = nil
     local closestDist = self.sight_dist
-    for _, player in pairs( players ) do
+    for i, player in pairs( players ) do
       local dist = vectorDist(self.x, self.y, player.x, player.y)
       if dist < closestDist then
         closestDist = dist
-        closest = player
+        closest = i
       end
       if closest then
         self.locked_in = closest

@@ -4,7 +4,7 @@ if arg[ 2 ] == "vsc_debug" then
 end
 
 require( "helpers" )
-require( "Units.Dummy" )
+require( "Units.Brute" )
 require( "Units.Stinky" )
 require( "Units.Turret" )
 require( "Units.Patrol" )
@@ -22,12 +22,12 @@ function love.load()
 
   -- Unit Globals
   players = {}
-  players[ "Francis" ] = Dummy:new( 400, 200, 30 )
+  players[ "Francis" ] = Brute:new( 400, 200, 30 )
   players[ "Geraldo" ] = Stinky:new( 100, 100, 50 )
   active_player = "Francis"
   enemies = { 
     Turret:new(500, 500, 25, -math.pi/2, 0, 3, math.pi/2, 500),
-    Patrol:new(600, 600, 15, -math.pi/2, 0, 3, math.pi/2, 300)
+    Patrol:new(600, 600, 15, math.pi/2, 0, 3, math.pi/2, 300)
   }
   
   -- Set up the window
@@ -114,7 +114,7 @@ function love.draw()
   for _, player in pairs( players ) do 
     player:draw()
   end
-  players[ active_player ]:shadowDraw()
+  if players[ active_player ] then players[ active_player ]:shadowDraw() end
   for _, enemy in pairs( enemies ) do
     enemy:draw()
   end
@@ -151,12 +151,26 @@ function love.update( dt )
   if love.keyboard.isScancodeDown( "escape" ) then
     love.event.quit()
   end
+
+  -- cleanup unit lists
+  for i, player in pairs( players ) do
+    if player.health <= 0 then
+      players[i] = nil
+      if i == active_player then active_player = nil end
+    end
+  end
+  for i=#enemies,1,-1 do 
+    if enemies[i].health <= 0 then
+      table.remove(enemies[i], i)
+    end
+  end
+
   -- update player
   for _, player in pairs( players ) do
     player:update( dt )
   end
 
-  players[ active_player ]:shadowUpdate( dt )  
+  if players[ active_player ] then players[ active_player ]:shadowUpdate( dt )  end
 
   -- update enemies
   for _, enemy in pairs( enemies ) do
