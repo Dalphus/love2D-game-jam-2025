@@ -21,9 +21,9 @@ function love.load()
   -- Set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
   love.graphics.setBackgroundColor( 0, 0, 0 )
-  
+
   love.mouse.setVisible(true)
-  
+
   -- Scene Globals
   Scene = Loader:addScene( LevelOne, "LevelOne" )
 
