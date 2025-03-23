@@ -1,10 +1,16 @@
 Loader = {
   scenes = {},
 
-  -- there's probably a better place to put the spritesheet, but it lives here for now
+  -- there's probably a better place to put the sprites, but it lives here for now
   images = {
-    wall1   = love.graphics.newImage( "Assets/wall1.png"  ),
-    blanck1 = love.graphics.newImage( "Assets/blank1.png" )
+    tiles = {
+      wall1   = love.graphics.newImage( "Assets/wall1.png"   ),
+      blanck1 = love.graphics.newImage( "Assets/blank1.png"  ),
+    },
+    units = {
+      tank    = love.graphics.newImage( "Assets/big guy.png" ),
+      turret  = love.graphics.newImage( "Assets/gun.png"     ),
+    }
   }
 }
 
@@ -57,9 +63,9 @@ function Loader:load( id )
     for i = 1, scene.width do
       for j = 1, scene.height do
         if tile_map[i][j] == -1 then
-          love.graphics.draw( self.images.wall1, (i - 1) * 50, (j - 1) * 50, 0, .5, 0.5 )
+          love.graphics.draw( self.images.tiles.wall1, (i - 1) * 50, (j - 1) * 50, 0, .5, 0.5 )
         else
-          love.graphics.draw( self.images.blanck1, (i - 1) * 50 , (j - 1) * 50, 0, .5, 0.5 )
+          love.graphics.draw( self.images.tiles.blanck1, (i - 1) * 50 , (j - 1) * 50, 0, .5, 0.5 )
         end
       end
     end
@@ -73,4 +79,11 @@ function Loader:load( id )
   end
 
   return self.scenes[ id ]
+end
+
+function Loader:updateBackground( id, x, y, tile )
+  local scene = self.scenes[ id ]
+  love.graphics.setCanvas( scene.background )
+  love.graphics.setColor( 1, 1, 1 )
+  love.graphics.draw( self.images.tiles[ tile ], (x + 1) * 50, (y + 1) * 50, 0, .5, 0.5 )
 end
