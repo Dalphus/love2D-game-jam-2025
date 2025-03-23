@@ -20,7 +20,12 @@ end
 
 function Patrol:update(dt)
   if not TurnEndFlag then return end
-  for _, bullet in pairs( self.bullets ) do
+  for i=#self.bullets,1,-1 do 
+    if self.bullets[i].needs_cleanup then
+      table.remove(self.bullets, i)
+    end
+  end
+  for _, bullet in pairs( self.bullets ) do 
     bullet:update(dt)
   end
   if self.locked_in then
@@ -91,7 +96,7 @@ end
 
 function Patrol:shoot(dt)
   if self.reload <= 0 then
-    table.insert(self.bullets, Bullet:new(self.x, self.y, 5, 100, self.rotation))
+    table.insert(self.bullets, Bullet:new(self.x, self.y, 5, 700, self.rotation, self))
     self.reload = RELOAD_TIMER
   else
     self.reload = self.reload - dt
