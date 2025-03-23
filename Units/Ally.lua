@@ -13,7 +13,6 @@ function Ally:new(...)
   ally.shadowx = ally.x
   ally.shadowy = ally.y
   ally.rate_limit_tally = 0
-  ally.time_budget = 100
   setmetatable(ally, self)
   return ally
 end
