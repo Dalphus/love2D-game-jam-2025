@@ -65,6 +65,12 @@ function love.mousepressed( mouseX, mouseY, button )
           break
         end
       end
+      for i, enemy in pairs( enemies ) do
+        if mouseInRadius( enemy ) then
+          Camera:grabUIofUnit(i)
+          break
+        end
+      end
     end
   elseif button == 2 then
     if love.keyboard.isDown( "space" ) and TurnEndFlag then

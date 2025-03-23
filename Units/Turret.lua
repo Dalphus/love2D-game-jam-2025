@@ -1,4 +1,5 @@
 require("Units.Enemy")
+require( "Scenes.LevelLoader" )
 
 Turret = {}
 Turret.__index = Turret
@@ -6,6 +7,7 @@ setmetatable(Turret, Enemy)
 
 function Turret:new(_x, _y, _size, _rotation, _speed, _health, _fov, _sight_dist)
   local turret = Enemy:new(_x, _y, _size, _rotation, _speed, _health, _fov, _sight_dist)
+  turret.portrait = Loader.images.portraits.turret
   setmetatable(turret, self)
   return turret
 end
