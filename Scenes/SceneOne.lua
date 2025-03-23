@@ -1,4 +1,5 @@
 require("Scenes.Scene")
+require("Units.Turret")
 
 SceneOne = {}
 SceneOne.__index = SceneOne
@@ -15,8 +16,7 @@ function SceneOne:load()
     ["Francis"] = Dummy:new( 400, 200, 30 ),
     ["Geraldo"] = Dummy:new( 100, 100, 50 )
   }
-end
-
-function SceneOne:draw()
-  love.graphics.setColor(1, 1, 1)
+  enemies = {
+    [1] = Turret:new(500, 500, 25, -math.pi/2, 0, math.pi/2, 500)
+  }
 end

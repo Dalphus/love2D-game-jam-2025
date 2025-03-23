@@ -102,6 +102,9 @@ function love.draw()
     player:draw()
   end
   players[ active_player ]:shadowDraw()
+  for _, enemy in pairs( enemies ) do
+    enemy:draw()
+  end
 
   -- -- draw walls
   -- for _, wall in ipairs( Scene.walls ) do
@@ -141,6 +144,11 @@ function love.update( dt )
   end
 
   players[ active_player ]:shadowUpdate( dt )  
+
+  -- update enemies
+  for _, enemy in pairs( enemies ) do
+    enemy:update(dt)
+  end
 
   Camera:buttonCooling(dt)
 end

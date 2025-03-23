@@ -105,7 +105,7 @@ function Dummy:update( dt )
 end
 
 function Dummy:AbilityAFunction()
-  if self.time_budget > (CHARGE_PREP_TIME + CHARGE_TIME)/TurnTime then
+  if self.time_budget > (100 * (CHARGE_PREP_TIME + CHARGE_TIME)/TurnTime) then
       -- move self
     self.shadowx = self.shadowx + math.cos(self.rotation) * CHARGE_TIME * CHARGE_SPEED
     self.shadowy = self.shadowy + math.sin(self.rotation) * CHARGE_TIME * CHARGE_SPEED
