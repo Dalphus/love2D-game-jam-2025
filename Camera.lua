@@ -103,6 +103,7 @@ function drawUnitUI()
         AbilityAButton:draw()
       end
       if unit.portrait then
+        love.graphics.setColor(1, 1, 1)
         local portrait_transform = love.math.newTransform(0, window_height-200, 0, 200/500, 200/500)
         love.graphics.draw(unit.portrait, portrait_transform)
       end
