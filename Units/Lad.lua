@@ -5,15 +5,19 @@ Lad = {}
 Lad.__index = Lad
 setmetatable(Lad, Ally)
 
+SHOOT_COOLDOWN = 0.5
+
 function Lad:new(...)
   local lad = Ally:new(...)
   lad.rotation_speed = 10
-  --lad.AbilityA = "Shoot"
+  lad.AbilityA = "Shoot"
   --lad.AbilityB = "Distract"
   lad.portrait = Loader.images.portraits.soldier
   setmetatable(lad, self)
   lad.name = "Operative"
   lad.speed = 200
+  lad.bullets = {}
+  lad.cooldown = 0
   return lad
 end
 
@@ -46,38 +50,55 @@ function Lad:draw()
 end
 
 function Lad:update( dt )
-  if TurnEndFlag then
-    if self.AbilityAIndex == 1 then -- Shoot
-
-    elseif self.AbilityBIndex == 1 then -- Distract
-    
-    elseif self.movement_nodes[1] then
-      -- rotates Operative to face movement node
-      local x1, y1 = self.x, self.y
-      local x2, y2 = self.movement_nodes[ 1 ].x, self.movement_nodes[ 1 ].y
-      local angle_diff = math.atan2(( y2 - y1 ), ( x2 - x1 )) - self.rotation
-      angle_diff = ( angle_diff + math.pi ) % ( 2 * math.pi ) - math.pi
-      self.rotation = self.rotation + dt * self.rotation_speed * sign( angle_diff )
-      self.rotation = self.rotation % ( 2 * math.pi )
-
-      if self.movement_nodes[2] then
-        while self.movement_nodes[2] and vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= (self.size * 1.1)  do
-          table.remove(self.movement_nodes, 1)
-          self.AbilityAIndex = self.AbilityAIndex - 1
-          self.AbilityBIndex = self.AbilityBIndex - 1
-        end
-      else
-        if vectorDist(self.x, self.y, self.shadowx, self.shadowy) <= (self.size * 0.05) then
-          self.movement_nodes = {}
-        end
-      end
-
-      -- move operative
-      self.x = self.x + math.cos( self.rotation ) * dt * self.speed
-      self.y = self.y + math.sin( self.rotation ) * dt * self.speed
-    else 
-      self.x = self.shadowx
-      self.y = self.shadowy
+  if TurnEndFlag then return end
+  -- Move Bullets
+  for i=#self.bullets,1,-1 do 
+    if self.bullets[i].needs_cleanup then
+      table.remove(self.bullets, i)
     end
   end
+  for _, bullet in pairs( self.bullets ) do 
+    bullet:update(dt)
+  end
+
+  if self.AbilityAIndex == 1 then -- Shoot
+    table.insert(self.bullets, Bullet:new(self.x, self.y, 5, 700, self.rotation, self))
+  elseif self.AbilityBIndex == 1 then -- Distract
+  
+  elseif self.movement_nodes[1] then
+    -- rotates Operative to face movement node
+    if self.cooldown > 0 then 
+      self.cooldown = self.cooldown - dt
+      return
+    end
+    local x1, y1 = self.x, self.y
+    local x2, y2 = self.movement_nodes[ 1 ].x, self.movement_nodes[ 1 ].y
+    local angle_diff = math.atan2(( y2 - y1 ), ( x2 - x1 )) - self.rotation
+    angle_diff = ( angle_diff + math.pi ) % ( 2 * math.pi ) - math.pi
+    self.rotation = self.rotation + dt * self.rotation_speed * sign( angle_diff )
+    self.rotation = self.rotation % ( 2 * math.pi )
+
+    if self.movement_nodes[2] then
+      while self.movement_nodes[2] and vectorDist(self.x, self.y, self.movement_nodes[1].x, self.movement_nodes[1].y) <= (self.size * 1.1)  do
+        table.remove(self.movement_nodes, 1)
+        self.AbilityAIndex = self.AbilityAIndex - 1
+        self.AbilityBIndex = self.AbilityBIndex - 1
+      end
+    else
+      if vectorDist(self.x, self.y, self.shadowx, self.shadowy) <= (self.size * 0.05) then
+        self.movement_nodes = {}
+      end
+    end
+
+    -- move operative
+    self.x = self.x + math.cos( self.rotation ) * dt * self.speed
+    self.y = self.y + math.sin( self.rotation ) * dt * self.speed
+  else 
+    self.x = self.shadowx
+    self.y = self.shadowy
+  end
+end
+
+function Lad:AbilityAFunction()
+  self.time_budget = self.time_budget - (100 * (SHOOT_COOLDOWN)/TurnTime)
 end

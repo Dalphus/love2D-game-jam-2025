@@ -114,7 +114,7 @@ function Brute:AbilityAFunction()
     self.shadowx = self.shadowx + math.cos(self.rotation) * CHARGE_TIME * CHARGE_SPEED
     self.shadowy = self.shadowy + math.sin(self.rotation) * CHARGE_TIME * CHARGE_SPEED
     
-    self.time_budget = self.time_budget - 50
+    self.time_budget = self.time_budget - (100 * (CHARGE_PREP_TIME + CHARGE_TIME)/TurnTime)
     self:addMovementNode(self.shadowx, self.shadowy)
     self.AbilityAIndex = #self.movement_nodes
     self.AbilityATime = 2
