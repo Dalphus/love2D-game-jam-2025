@@ -1,36 +1,40 @@
-require("Units.Ally")
+require( "Units.Ally" )
 require( "Particles.ParticleGenerator" )
+require( "Scenes.LevelLoader" )
 
 
-Dummy = {}
-Dummy.__index = Dummy
-setmetatable(Dummy, Ally)
+Brute = {}
+Brute.__index = Brute
+setmetatable(Brute, Ally)
 
 CHARGE_TIME = 1
 CHARGE_PREP_TIME = 1
 CHARGE_SPEED = 500
 
-function Dummy:new(...)
-  local dummy = Ally:new(...)
-  dummy.rotation_speed = 10
-  dummy.AbilityA = "Charge"
-  dummy.AbilityAIndex = 0
-  dummy.AbilityATime = 0
-  dummy.AbilityB = "Stun"
-  dummy.AbilityBIndex = 0
-  setmetatable(dummy, self)
-  dummy.name = "Dummy"
-  dummy.speed = 200
-  return dummy
+function Brute:new(...)
+  local brute = Ally:new(...)
+  brute.rotation_speed = 10
+  brute.AbilityA = "Charge"
+  brute.AbilityAIndex = 0
+  brute.AbilityATime = 0
+  brute.AbilityB = "Stun"
+  brute.AbilityBIndex = 0
+  brute.portrait = Loader.images.portraits.tank
+  setmetatable(brute, self)
+  brute.name = "Brute"
+  brute.speed = 200
+  return brute
 end
 
-function Dummy:draw()
+function Brute:draw()
   if mouseInRadius(self, self.size) then
     love.graphics.setColor( 1, 0, 0 )
   else
     love.graphics.setColor( 1, 1, 1 )
   end
-  love.graphics.circle("fill", self.x, self.y, self.size, 50)
+  --love.graphics.circle("fill", self.x, self.y, self.size, 50)
+  local sprite_transform = love.math.newTransform(self.x , self.y, self.rotation, self.size/50, self.size/50, (self.size) * 3/2, (self.size) * 3/2)
+  love.graphics.draw(Loader.images.units.tank, sprite_transform)
   local x2 = math.cos(self.rotation) * self.size
   local y2 = math.sin(self.rotation) * self.size
   love.graphics.setColor(0, 0, 0)
@@ -52,7 +56,7 @@ function Dummy:draw()
   end
 end
 
-function Dummy:update( dt )
+function Brute:update( dt )
   if TurnEndFlag then
     if self.AbilityAIndex == 1 then -- Charge
       if self.AbilityATime > CHARGE_PREP_TIME then
@@ -64,7 +68,7 @@ function Dummy:update( dt )
         self.rotation = self.rotation + dt * self.rotation_speed * sign( angle_diff )
         self.rotation = self.rotation % ( 2 * math.pi )
 
-        -- move dummy
+        -- move brute
         self.x = self.x + math.cos( self.rotation ) * dt * CHARGE_SPEED
         self.y = self.y + math.sin( self.rotation ) * dt * CHARGE_SPEED
       else
@@ -74,7 +78,7 @@ function Dummy:update( dt )
     elseif self.AbilityBIndex == 1 then -- Stun
     
     elseif self.movement_nodes[1] then
-      -- rotates Dummy to face movement node
+      -- rotates Brute to face movement node
       local x1, y1 = self.x, self.y
       local x2, y2 = self.movement_nodes[ 1 ].x, self.movement_nodes[ 1 ].y
       local angle_diff = math.atan2(( y2 - y1 ), ( x2 - x1 )) - self.rotation
@@ -94,7 +98,7 @@ function Dummy:update( dt )
         end
       end
 
-      -- move dummy
+      -- move brute
       self.x = self.x + math.cos( self.rotation ) * dt * self.speed
       self.y = self.y + math.sin( self.rotation ) * dt * self.speed
     else 
@@ -104,8 +108,8 @@ function Dummy:update( dt )
   end
 end
 
-function Dummy:AbilityAFunction()
-  if self.time_budget > (CHARGE_PREP_TIME + CHARGE_TIME)/TurnTime then
+function Brute:AbilityAFunction()
+  if self.time_budget > (100 * (CHARGE_PREP_TIME + CHARGE_TIME)/TurnTime) then
       -- move self
     self.shadowx = self.shadowx + math.cos(self.rotation) * CHARGE_TIME * CHARGE_SPEED
     self.shadowy = self.shadowy + math.sin(self.rotation) * CHARGE_TIME * CHARGE_SPEED

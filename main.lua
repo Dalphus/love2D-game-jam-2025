@@ -4,8 +4,10 @@ if arg[ 2 ] == "vsc_debug" then
 end
 
 require( "helpers" )
-require( "Units.Dummy" )
+require( "Units.Brute" )
 require( "Units.Stinky" )
+require( "Units.Turret" )
+require( "Units.Patrol" )
 require( "Camera" )
 require( "Scenes.LevelLoader" )
 require( "Walls" )
@@ -20,12 +22,37 @@ function love.load()
 
   -- Unit Globals
   players = {}
-  players[ "Francis" ] = Dummy:new( 400, 200, 30 )
+  players[ "Francis" ] = Brute:new( 400, 200, 30 )
   players[ "Geraldo" ] = Stinky:new( 100, 100, 50 )
   active_player = "Francis"
+  enemies = { 
+    Turret:new(500, 500, 25, -math.pi/2, 0, 3, math.pi/2, 500),
+    Patrol:new(600, 600, 15, math.pi/2, 0, 3, math.pi/2, 300)
+  }
+  
+  -- Set up the window
+  love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
+  love.graphics.setBackgroundColor( 0, 0, 0 )
 
   -- Scene Globals
   Scene = Loader:addScene( LevelOne, "LevelOne" )
+  
+  -- Start menu items
+  InMenu = true
+  StartButton = Button:new(0, 200, 300, 200, "BCENT")
+  StartButton:setText("Start")
+  StartButton:setColor(0, 1, 1)
+  StartButton:setFunction(function ()
+    InMenu = false
+  end, false)
+
+  -- Set up enemy paths
+  enemies[2]:addMovementNode(600, 600)
+  enemies[2]:addMovementNode(600, 700)
+  enemies[2]:addMovementNode(700, 700)
+  enemies[2]:addMovementNode(700, 600)
+  
+  love.mouse.setVisible(true)
 
   TurnEndFlag = false
   TurnTime = 4
@@ -47,6 +74,12 @@ function love.mousepressed( mouseX, mouseY, button )
           break
         end
       end
+      for i, enemy in pairs( enemies ) do
+        if mouseInRadius( enemy ) then
+          Camera:grabUIofUnit(i)
+          break
+        end
+      end
     end
   elseif button == 2 then
     if love.keyboard.isDown( "space" ) and TurnEndFlag then
@@ -55,6 +88,7 @@ function love.mousepressed( mouseX, mouseY, button )
   end
 
   Camera:buttonEvents()
+  StartButton:mouseEvent()
 end
 
 function love.mousemoved( mouseX, mouseY, dx, dy, force )
@@ -89,6 +123,11 @@ function love.wheelmoved( x, y )
 end
 
 function love.draw()
+  if InMenu then
+    StartButton:draw()
+    return
+  end
+
   local canvas = love.graphics.newCanvas( Scene.width, Scene.height, { format = "rgba8" } )
   love.graphics.setCanvas( canvas )
   -- LevelLoader:draw()
@@ -96,7 +135,10 @@ function love.draw()
   for _, player in pairs( players ) do 
     player:draw()
   end
-  players[ active_player ]:shadowDraw()
+  if players[ active_player ] then players[ active_player ]:shadowDraw() end
+  for _, enemy in pairs( enemies ) do
+    enemy:draw()
+  end
 
   -- -- draw walls
   -- for _, wall in ipairs( Scene.walls ) do
@@ -130,12 +172,31 @@ function love.update( dt )
   if love.keyboard.isScancodeDown( "escape" ) then
     love.event.quit()
   end
+
+  -- cleanup unit lists
+  for i, player in pairs( players ) do
+    if player.health <= 0 then
+      players[i] = nil
+      if i == active_player then active_player = nil end
+    end
+  end
+  for i=#enemies,1,-1 do 
+    if enemies[i].health <= 0 then
+      table.remove(enemies[i], i)
+    end
+  end
+
   -- update player
   for _, player in pairs( players ) do
     player:update( dt )
   end
 
-  players[ active_player ]:shadowUpdate( dt )  
+  if players[ active_player ] then players[ active_player ]:shadowUpdate( dt )  end
+
+  -- update enemies
+  for _, enemy in pairs( enemies ) do
+    enemy:update(dt)
+  end
 
   Camera:buttonCooling(dt)
 end

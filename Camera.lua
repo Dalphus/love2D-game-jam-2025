@@ -43,7 +43,11 @@ local AbilityBButton = nil
 
 function Camera:grabUIofUnit(unit)
   UI_unit = unit
-  unitLabel:set(players[unit].name)
+  if players[unit] then 
+    unitLabel:set(players[unit].name) 
+  else
+    unitLabel:set(enemies[unit].name)
+  end
 end
 
 function Camera:renderUI()
@@ -62,38 +66,48 @@ function Camera:buttonCooling(dt)
 end
 
 function drawUnitUI()
-    if UI_unit then 
-        local window_height = love.graphics.getHeight()
-        local window_width = love.graphics.getWidth()
-        x1 = window_width/2 - COMMAND_WIDTH
-        y1 = window_height
-        x2 = window_width/2 - COMMAND_WIDTH
-        y2 = window_height - COMMAND_HEIGHT
-        x3 = window_width/2 + COMMAND_WIDTH
-        y3 = window_height - COMMAND_HEIGHT
-        x4 = window_width/2 + COMMAND_WIDTH
-        y4 = window_height
+  if players[UI_unit] or enemies[UI_unit] then 
+      local unit = players[UI_unit] or enemies[UI_unit]
+      local window_height = love.graphics.getHeight()
+      local window_width = love.graphics.getWidth()
+      x1 = window_width/2 - COMMAND_WIDTH
+      y1 = window_height
+      x2 = window_width/2 - COMMAND_WIDTH
+      y2 = window_height - COMMAND_HEIGHT
+      x3 = window_width/2 + COMMAND_WIDTH
+      y3 = window_height - COMMAND_HEIGHT
+      x4 = window_width/2 + COMMAND_WIDTH
+      y4 = window_height
+      if unit.time_budget then 
         love.graphics.setColor(0, 0, 1)
-        love.graphics.line(x1, y1, x2, y2, x3, y3, x4 ,y4)
-        love.graphics.rectangle("fill", x2, y2, COMMAND_WIDTH * 2, COMMAND_HEIGHT/4)
-        love.graphics.setColor(1, 1, 1)
-        love.graphics.draw(unitLabel, x2 + 5, y2 + (COMMAND_HEIGHT/8) - (unitLabel:getHeight()/2))
-        love.graphics.setColor(0, 1, 0)
-        love.graphics.rectangle("fill", x2, y2 - (COMMAND_HEIGHT/4), COMMAND_WIDTH * 2 * (players[UI_unit].time_budget/100), COMMAND_HEIGHT/4)
-        if players[UI_unit].AbilityA then
-          AbilityAButton = Button:new(x2 + 10, y2 + (COMMAND_HEIGHT/4) + 5 , COMMAND_WIDTH - 15, COMMAND_HEIGHT*.75 - 10, "TLEFT")
-          AbilityAButton:setText(players[UI_unit].AbilityA)
-          AbilityAButton:setFunction(function () players[UI_unit]:AbilityAFunction() end, false)
-          AbilityAButton:setColor(0, 0, 1)
-          if players[UI_unit].AbilityB then
-            AbilityBButton = Button:new(x2 + COMMAND_WIDTH + 5, y2 + (COMMAND_HEIGHT/4) + 5 , COMMAND_WIDTH - 15, COMMAND_HEIGHT*.75 - 10, "TLEFT")
-            AbilityBButton:setText(players[UI_unit].AbilityB)
-            AbilityBButton:setColor(0, 0, 1)
-            AbilityBButton:draw()
-          end
-          AbilityAButton:draw()
+      else 
+        love.graphics.setColor(1, 0, 0)
+      end
+      love.graphics.line(x1, y1, x2, y2, x3, y3, x4 ,y4)
+      love.graphics.rectangle("fill", x2, y2, COMMAND_WIDTH * 2, COMMAND_HEIGHT/4)
+      love.graphics.setColor(1, 1, 1)
+      love.graphics.draw(unitLabel, x2 + 5, y2 + (COMMAND_HEIGHT/8) - (unitLabel:getHeight()/2))
+      love.graphics.setColor(0, 1, 0)
+      if unit.time_budget then love.graphics.rectangle("fill", x2, y2 - (COMMAND_HEIGHT/4), COMMAND_WIDTH * 2 * (unit.time_budget/100), COMMAND_HEIGHT/4) end
+      if unit.AbilityA then
+        AbilityAButton = Button:new(x2 + 10, y2 + (COMMAND_HEIGHT/4) + 5 , COMMAND_WIDTH - 15, COMMAND_HEIGHT*.75 - 10, "TLEFT")
+        AbilityAButton:setText(unit.AbilityA)
+        AbilityAButton:setFunction(function () unit:AbilityAFunction() end, false)
+        AbilityAButton:setColor(0, 0, 1)
+        if unit.AbilityB then
+          AbilityBButton = Button:new(x2 + COMMAND_WIDTH + 5, y2 + (COMMAND_HEIGHT/4) + 5 , COMMAND_WIDTH - 15, COMMAND_HEIGHT*.75 - 10, "TLEFT")
+          AbilityBButton:setText(unit.AbilityB)
+          AbilityBButton:setColor(0, 0, 1)
+          AbilityBButton:draw()
         end
-    end
+        AbilityAButton:draw()
+      end
+      if unit.portrait then
+        love.graphics.setColor(1, 1, 1)
+        local portrait_transform = love.math.newTransform(0, window_height-200, 0, 200/500, 200/500)
+        love.graphics.draw(unit.portrait, portrait_transform)
+      end
+  end
 end
 
 -- Camera object

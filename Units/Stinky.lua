@@ -30,5 +30,5 @@ end
 
 function Stinky:update( dt )
   -- self.emitter:update( dt )
-  Dummy.update( self, dt )
+  Brute.update( self, dt )
 end

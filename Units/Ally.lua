@@ -18,24 +18,6 @@ function Ally:new(...)
   return ally
 end
 
-function Ally:addMovementNode(_x, _y)
-  if not self:isValidMovementNode( _x, _y ) then
-    print( "nope" )
-    return
-  end
-  table.insert( self.movement_nodes, Node:new( _x, _y ) )
-end
-
-function Ally:isValidMovementNode( x1, y1 )
-  local x2, y2 = self:getLastNodePos()
-  for _, wall in ipairs( Scene.walls ) do
-    if wall:collides( x1, y1, x2, y2, self.size ) then
-      return false
-    end
-  end
-  return true
-end
-
 function Ally:undoMovementNodes()
   self.movement_nodes = {}
   self.shadowx = self.x
@@ -77,6 +59,7 @@ function Ally:shadowUpdate(dt)
   if (speed > 0) and (vectorDist(self.x, self.y, self.shadowx, self.shadowy) > self.size) then
     if self.rate_limit_tally == 0 then
       self:addMovementNode(self.shadowx, self.shadowy)
+      self.rate_limit_tally = self.rate_limit_tally + 1
     elseif (self.rate_limit_tally == 60) then
       self.rate_limit_tally = 0
     else
@@ -96,10 +79,4 @@ function Ally:shadowDraw()
     love.graphics.setColor(1, 1, 1)
     love.graphics.line(self.shadowx, self.shadowy, self.shadowx + x2, self.shadowy + y2)
   end
-end
-
-function Ally:getLastNodePos()
-  local nodes = self.movement_nodes
-  local node = nodes[ #nodes ] or self
-  return node.x, node.y
 end

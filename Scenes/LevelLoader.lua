@@ -7,9 +7,12 @@ Loader = {
       wall1   = love.graphics.newImage( "Assets/wall1.png"   ),
       blanck1 = love.graphics.newImage( "Assets/blank1.png"  ),
     },
-    units = {
+    portraits = {
       tank    = love.graphics.newImage( "Assets/big guy.png" ),
       turret  = love.graphics.newImage( "Assets/gun.png"     ),
+    },
+    units = {
+      tank    = love.graphics.newImage( "Assets/big guy token.png" ),
     }
   }
 }
