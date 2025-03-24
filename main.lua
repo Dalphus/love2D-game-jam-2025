@@ -134,7 +134,6 @@ function love.draw()
 
   local canvas = love.graphics.newCanvas( Scene.width, Scene.height, { format = "rgba8" } )
   love.graphics.setCanvas( canvas )
-  -- LevelLoader:draw()
   -- draw players
   for _, player in pairs( players ) do 
     player:draw()
@@ -143,11 +142,6 @@ function love.draw()
   for _, enemy in pairs( enemies ) do
     enemy:draw()
   end
-
-  -- -- draw walls
-  -- for _, wall in ipairs( Scene.walls ) do
-  --   wall:draw()
-  -- end
 
   -- movement preview
   if love.keyboard.isDown( "space" ) then
