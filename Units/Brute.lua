@@ -17,7 +17,7 @@ function Brute:new(...)
   brute.AbilityA = "Charge"
   brute.AbilityAIndex = 0
   brute.AbilityATime = 0
-  brute.AbilityB = "Stun"
+  --brute.AbilityB = "Stun"
   brute.AbilityBIndex = 0
   brute.portrait = Loader.images.portraits.tank
   setmetatable(brute, self)

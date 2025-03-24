@@ -50,10 +50,6 @@ function Ally:shadowUpdate(dt)
   self.shadowx = self.shadowx + math.cos(self.rotation) * dt * speed
   self.shadowy = self.shadowy + math.sin(self.rotation) * dt * speed
   if speed > 0 then self.time_budget = self.time_budget - (dt*100/TurnTime) end
-  
-  -- keep self on screen
-  self.shadowx = (self.shadowx + self.size) % (love.graphics.getWidth() + self.size * 2) - self.size
-  self.shadowy = (self.shadowy + self.size) % (love.graphics.getHeight() + self.size * 2) - self.size
 
   -- add node
   if (speed > 0) and (vectorDist(self.x, self.y, self.shadowx, self.shadowy) > self.size) then

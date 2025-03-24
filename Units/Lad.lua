@@ -8,11 +8,8 @@ setmetatable(Lad, Ally)
 function Lad:new(...)
   local lad = Ally:new(...)
   lad.rotation_speed = 10
-  lad.AbilityA = "Shoot"
-  lad.AbilityAIndex = 0
-  lad.AbilityATime = 0
-  lad.AbilityB = "Distract"
-  lad.AbilityBIndex = 0
+  --lad.AbilityA = "Shoot"
+  --lad.AbilityB = "Distract"
   lad.portrait = Loader.images.portraits.soldier
   setmetatable(lad, self)
   lad.name = "Operative"

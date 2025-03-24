@@ -66,25 +66,21 @@ end
 
 function love.mousepressed( mouseX, mouseY, button )
   if button == 1 then
-    if love.keyboard.isDown( "space" ) then
-      players[ active_player ]:addMovementNode( getRelativeCursor() )
-    else
-      for i, player in pairs( players ) do
-        if mouseInRadius( player ) then
-          active_player = i
-          Camera:grabUIofUnit(active_player)
-          break
-        end
+    for i, player in pairs( players ) do
+      if mouseInRadius( player ) then
+        active_player = i
+        Camera:grabUIofUnit(active_player)
+        break
       end
-      for i, enemy in pairs( enemies ) do
-        if mouseInRadius( enemy ) then
-          Camera:grabUIofUnit(i)
-          break
-        end
+    end
+    for i, enemy in pairs( enemies ) do
+      if mouseInRadius( enemy ) then
+        Camera:grabUIofUnit(i)
+        break
       end
     end
   elseif button == 2 then
-    if love.keyboard.isDown( "space" ) and TurnEndFlag then
+    if love.keyboard.isDown( "space" ) and not TurnEndFlag then
       players[ active_player ]:undoMovementNodes()
     end
   end
@@ -148,19 +144,6 @@ function love.draw()
   -- for _, wall in ipairs( Scene.walls ) do
   --   wall:draw()
   -- end
-
-  -- movement preview
-  if love.keyboard.isDown( "space" ) then
-    local x1, y1 = getRelativeCursor()
-    local x2, y2 = players[ active_player ]:getLastNodePos()
-    if players[ active_player ]:isValidMovementNode( x1, y1 ) then
-      love.graphics.setColor( 1, 1, 1 )
-    else
-      love.graphics.setColor( 1, 0, 0 )
-    end
-    love.graphics.circle( "line", x1, y1, players[ active_player ].size, 50 )
-    love.graphics.line( x1, y1, x2, y2 )
-  end
 
   love.graphics.setCanvas()
   love.graphics.setColor( 1, 1, 1 )
