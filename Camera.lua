@@ -44,7 +44,7 @@ local AbilityBButton = nil
 function Camera:grabUIofUnit(unit)
   UI_unit = unit
   if players[unit] then 
-    unitLabel:set(players[unit].name) 
+    unitLabel:set(players[unit].name)
   else
     unitLabel:set(enemies[unit].name)
   end
