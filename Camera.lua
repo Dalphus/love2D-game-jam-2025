@@ -107,6 +107,9 @@ function drawUnitUI()
         local portrait_transform = love.math.newTransform(0, window_height-200, 0, 200/500, 200/500)
         love.graphics.draw(unit.portrait, portrait_transform)
       end
+      for i = 1, unit.health do
+        love.graphics.circle("fill", x3 - (25*i) , y3 + (COMMAND_HEIGHT/8) , 10)
+      end
   end
 end
 

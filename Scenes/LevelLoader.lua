@@ -10,10 +10,12 @@ Loader = {
     portraits = {
       tank    = love.graphics.newImage( "Assets/big guy.png" ),
       turret  = love.graphics.newImage( "Assets/gun.png"     ),
+      soldier = love.graphics.newImage( "Assets/shroomo.png" )
     },
     units = {
       tank    = love.graphics.newImage( "Assets/big guy token.png" ),
-    }
+    },
+    title = love.graphics.newImage( "Assets/plam.png" )
   }
 }
 

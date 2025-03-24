@@ -6,6 +6,7 @@ end
 require( "helpers" )
 require( "Units.Brute" )
 require( "Units.Stinky" )
+require( "Units.Lad" )
 require( "Units.Turret" )
 require( "Units.Patrol" )
 require( "Camera" )
@@ -16,14 +17,16 @@ require( "Scenes.LevelData" )
 function love.load()
   -- Set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
-  love.graphics.setBackgroundColor( 0, 0, 0 )
+  love.graphics.setBackgroundColor( 0.31, 0.43, 0.24)
+  love.window.setTitle("PLAM")
   
   love.mouse.setVisible(true)
 
   -- Unit Globals
   players = {}
-  players[ "Francis" ] = Brute:new( 400, 200, 30 )
+  players[ "Francis" ] = Brute:new( 400, 200, 40 )
   players[ "Geraldo" ] = Stinky:new( 100, 100, 50 )
+  players[ "Peachy Cleeves" ] = Lad:new(300, 100, 30)
   active_player = "Francis"
   enemies = { 
     Turret:new(500, 500, 25, -math.pi/2, 0, 3, math.pi/2, 500),
@@ -32,7 +35,6 @@ function love.load()
   
   -- Set up the window
   love.window.setMode( 1000, 1000, { resizable = true, vsync = false })
-  love.graphics.setBackgroundColor( 0, 0, 0 )
 
   -- Scene Globals
   Scene = Loader:addScene( LevelOne, "LevelOne" )
@@ -41,7 +43,7 @@ function love.load()
   InMenu = true
   StartButton = Button:new(0, 200, 300, 200, "BCENT")
   StartButton:setText("Start")
-  StartButton:setColor(0, 1, 1)
+  StartButton:setColor(0.48, 0.15, 0.04)
   StartButton:setFunction(function ()
     InMenu = false
   end, false)
@@ -125,6 +127,8 @@ end
 function love.draw()
   if InMenu then
     StartButton:draw()
+    local title_transform = love.math.newTransform(love.graphics.getWidth()/2, love.graphics.getHeight()/3, 0, 2, 2, 200, 100)
+    love.graphics.draw(Loader.images.title, title_transform)
     return
   end
 
