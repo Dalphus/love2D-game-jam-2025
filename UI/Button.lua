@@ -25,6 +25,8 @@ end
 function Button:draw()
   if self.anchor == "BRIGHT" then
     coordBottomRight(self)
+  elseif self.anchor == "BCENT" then
+    coordBottomCenter(self)
   else
     coordTopLeft(self)
   end
@@ -102,4 +104,11 @@ end
 function coordTopLeft(self)
   self.true_x = self.x
   self.true_y = self.y
+end
+
+function coordBottomCenter(self)
+  local window_height = love.graphics.getHeight()
+  local window_width = love.graphics.getWidth()
+  self.true_x = (window_width/2) - (self.width/2) - self.x
+  self.true_y = window_height - self.height - self.y
 end

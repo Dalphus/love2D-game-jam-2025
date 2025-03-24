@@ -36,6 +36,15 @@ function love.load()
 
   -- Scene Globals
   Scene = Loader:addScene( LevelOne, "LevelOne" )
+  
+  -- Start menu items
+  InMenu = true
+  StartButton = Button:new(0, 200, 300, 200, "BCENT")
+  StartButton:setText("Start")
+  StartButton:setColor(0, 1, 1)
+  StartButton:setFunction(function ()
+    InMenu = false
+  end, false)
 
   -- Set up enemy paths
   enemies[2]:addMovementNode(600, 600)
@@ -79,6 +88,7 @@ function love.mousepressed( mouseX, mouseY, button )
   end
 
   Camera:buttonEvents()
+  StartButton:mouseEvent()
 end
 
 function love.mousemoved( mouseX, mouseY, dx, dy, force )
@@ -113,6 +123,11 @@ function love.wheelmoved( x, y )
 end
 
 function love.draw()
+  if InMenu then
+    StartButton:draw()
+    return
+  end
+
   local canvas = love.graphics.newCanvas( Scene.width, Scene.height, { format = "rgba8" } )
   love.graphics.setCanvas( canvas )
   -- LevelLoader:draw()
