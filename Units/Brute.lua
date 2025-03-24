@@ -71,6 +71,13 @@ function Brute:update( dt )
         -- move brute
         self.x = self.x + math.cos( self.rotation ) * dt * CHARGE_SPEED
         self.y = self.y + math.sin( self.rotation ) * dt * CHARGE_SPEED
+
+        -- check to see if units are hit
+        for _, enemy in pairs( enemies ) do
+          if vectorDist(self.x, self.y, enemy.x, enemy.y) < (self.size + enemy.size) then
+            enemy.health = enemy.health - 3
+          end
+        end
       else
         self.AbilityAIndex = 0
       end

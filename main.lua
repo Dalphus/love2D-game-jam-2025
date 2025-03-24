@@ -27,12 +27,13 @@ function love.load()
   TURRET_Y = 525
   players = {}
   players[ "Francis" ] = Brute:new( 400, 200, 40 )
-  players[ "Geraldo" ] = Stinky:new( 100, 100, 50 )
+  players[ "Geraldo" ] = Lad:new( 100, 100, 20 )
   players[ "Peachy Cleeves" ] = Lad:new(300, 100, 30)
   active_player = "Francis"
   enemies = { 
     Turret:new(TURRET_X, TURRET_Y, 25, -math.pi/2, 0, 3, math.pi/2, 500),
-    Patrol:new(600, 600, 15, math.pi/2, 0, 3, math.pi/2, 300)
+    Patrol:new(600, 600, 15, math.pi/2, 0, 3, math.pi/2, 300),
+    Patrol:new(1200, 600, 15, math.pi/2, 0, 3, math.pi/2, 300)
   }
   
   -- Set up the window
@@ -55,6 +56,9 @@ function love.load()
   enemies[2]:addMovementNode(600, 700)
   enemies[2]:addMovementNode(700, 700)
   enemies[2]:addMovementNode(700, 600)
+  enemies[3]:addMovementNode(1650, 700)
+  enemies[3]:addMovementNode(1800, 700)
+  enemies[3]:addMovementNode(1800, 100)
   
   love.mouse.setVisible(true)
 
