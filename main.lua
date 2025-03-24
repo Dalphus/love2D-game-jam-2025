@@ -23,13 +23,15 @@ function love.load()
   love.mouse.setVisible(true)
 
   -- Unit Globals
+  TURRET_X = 475
+  TURRET_Y = 525
   players = {}
   players[ "Francis" ] = Brute:new( 400, 200, 40 )
   players[ "Geraldo" ] = Stinky:new( 100, 100, 50 )
   players[ "Peachy Cleeves" ] = Lad:new(300, 100, 30)
   active_player = "Francis"
   enemies = { 
-    Turret:new(500, 500, 25, -math.pi/2, 0, 3, math.pi/2, 500),
+    Turret:new(TURRET_X, TURRET_Y, 25, -math.pi/2, 0, 3, math.pi/2, 500),
     Patrol:new(600, 600, 15, math.pi/2, 0, 3, math.pi/2, 300)
   }
   
@@ -130,7 +132,6 @@ function love.draw()
 
   local canvas = love.graphics.newCanvas( Scene.width, Scene.height, { format = "rgba8" } )
   love.graphics.setCanvas( canvas )
-  -- LevelLoader:draw()
   -- draw players
   for _, player in pairs( players ) do 
     player:draw()
@@ -139,11 +140,6 @@ function love.draw()
   for _, enemy in pairs( enemies ) do
     enemy:draw()
   end
-
-  -- -- draw walls
-  -- for _, wall in ipairs( Scene.walls ) do
-  --   wall:draw()
-  -- end
 
   love.graphics.setCanvas()
   love.graphics.setColor( 1, 1, 1 )
@@ -169,7 +165,7 @@ function love.update( dt )
   end
   for i=#enemies,1,-1 do 
     if enemies[i].health <= 0 then
-      table.remove(enemies[i], i)
+      table.remove(enemies, i)
     end
   end
 

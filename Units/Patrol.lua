@@ -69,8 +69,9 @@ function Patrol:draw()
   for _, bullet in pairs( self.bullets ) do
     bullet:draw()
   end
+  love.graphics.setColor(1, 1, 1)
+  love.graphics.draw(Loader.images.units.patrol, self.x , self.y, self.rotation, self.size/50, self.size/50, (self.size) * 3/2 + 30, (self.size) * 3/2 + 20)
   love.graphics.setColor(1, 0, 0)
-  love.graphics.circle("fill", self.x, self.y, self.size, 50)
   local x2 = math.cos(self.rotation) * self.size
   local y2 = math.sin(self.rotation) * self.size
   local x3 = math.cos(self.rotation - (self.fov/2)) * self.sight_dist

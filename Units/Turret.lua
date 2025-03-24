@@ -61,8 +61,10 @@ function Turret:draw()
   end
 
   -- Draw Self
+  love.graphics.setColor(1, 1, 1)
+  local sprite_transform_head = love.math.newTransform(self.x , self.y, self.rotation, self.size/50, self.size/50, (self.size) * 3/2, (self.size) * 3/2 + 10)
+  love.graphics.draw(Loader.images.units.turret_head, sprite_transform_head)
   love.graphics.setColor(1, 0, 0)
-  love.graphics.circle("fill", self.x, self.y, self.size, 50)
   local x2 = math.cos(self.rotation) * self.size
   local y2 = math.sin(self.rotation) * self.size
   local x3 = math.cos(self.rotation - (self.fov/2)) * self.sight_dist
